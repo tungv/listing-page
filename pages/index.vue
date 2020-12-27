@@ -1,57 +1,117 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        listing-page
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+    <div class="container_postDetail">
+      <ImageSlider :post="post" />
+      <PostDetail :post="post" />
+      <CommentSection v-if="comments && comments.length" :comments="comments" />
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { get } from "lodash";
+
+const DEFAULT_SHARE_THUMBNAIL =
+  "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
+
+export default {
+  data: function () {
+    return {
+      post: null,
+      id: null,
+      comments: [],
+    };
+  },
+  created() {
+    if (this.$route.query.id) this.id = this.$route.query.id;
+    this.fetchPost(this.$route.query.id);
+  },
+  mounted() {
+    if (get(this.post, "commentRef.id", null)) {
+      this.fetchComments(this.post.commentRef.id);
+    }
+  },
+  mounted() {},
+  methods: {
+    async fetchPost() {
+      try {
+        let res = await this.$axios.get(`/api/post/${this.id}`);
+        this.post = res.data;
+        console.log(this.post);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchComments(commentRefId) {
+      try {
+        let res = await this.$axios.post(`/api/comment/${commentRefId}`);
+        this.comments = res.data.comments;
+        console.log(this.comments);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    head() {
+      return {
+        title: get(this.post, "content", "page title"),
+        meta: [
+          { charset: "utf-8" },
+          {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1",
+          },
+          {
+            property: "og:url",
+            content: window.location,
+          },
+          {
+            property: "og:type",
+            content: "website",
+          },
+          {
+            property: "og:title",
+            content: "title",
+          },
+          {
+            property: "og:description",
+            content: get(this.post, "content"),
+          },
+          {
+            property: "og:image",
+            content: get(this.post, "images[0]", DEFAULT_SHARE_THUMBNAIL),
+          },
+        ],
+      };
+    },
+  },
+  watch: {
+    post: {
+      handler(newVal, old) {
+        if (
+          newVal &&
+          get(newVal, "commentRef.id", null) &&
+          newVal.commentRef !== get(old, "commentRef", null)
+        ) {
+          this.fetchComments(newVal.commentRef.id);
+        }
+      },
+    },
+  },
+};
 </script>
 
-<style>
+<style lang="scss">
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  padding-left: 5%;
+  padding-right: 5%;
+  background-color: red;
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
@@ -69,5 +129,8 @@ export default {}
 
 .links {
   padding-top: 15px;
+}
+.container_postDetail {
+  display: flex;
 }
 </style>

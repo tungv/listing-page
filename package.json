@@ -9,8 +9,27 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@nuxt/webpack": "^2.14.12",
+    "@nuxtjs/axios": "^5.12.4",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/proxy": "^2.1.0",
+    "@nuxtjs/svg": "^0.1.12",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6"
+    "lodash": "^4.17.20",
+    "nuxt": "^2.14.6",
+    "vue-insta-slider": "^1.0.0",
+    "vue-lodash": "^2.1.2",
+    "vue-slick-carousel": "^1.0.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/style-resources": "^1.0.0",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
+  }
 }

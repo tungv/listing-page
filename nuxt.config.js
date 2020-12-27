@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -17,6 +19,7 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '~assets/scss/base.scss'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -28,6 +31,15 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
+    '@nuxtjs/dotenv',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    '@nuxtjs/style-resources',
+    '@nuxtjs/svg',
+    ['@nuxtjs/fontawesome', {
+      component: 'Fa',
+      suffix: true
+    }]
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -36,5 +48,37 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+    vendor: ['lodash'],
+    plugins: [
+      new webpack.ProvidePlugin({
+        '_': 'lodash'
+      })
+    ]
+  },
+  env: {
+    baseUrl: process.env.BASE_URL
+  },
+  axios: {
+    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'https://urich-server.herokuapp.com/api/web',
+    proxyHeaders: false,
+    credentials: false,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Accept': 'application/json, text/plain, */*',
+      'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+      'Access-Control-Allow-Credentials': true
+    },
+    proxy: true
+  },
+  proxy: {
+    '/api/': { target: process.env.BASE_URL, pathRewrite: { '^/api/': '' } }
+  },
+  styleResources: {
+    scss: ['./assets/scss/*.scss']
+  },
+  script: [
+    { src: '/js/fb-sdk.js' }
+  ]
 }

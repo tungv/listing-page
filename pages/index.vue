@@ -2,7 +2,7 @@
   <div class="container">
     <div class="container_postDetail">
       <ImageSlider :post="post" />
-      <PostDetail :post="post" :comments="comments"/>
+      <PostDetail :post="post" :comments="comments" />
     </div>
     <div class="container_recommendations">
       <Recommendation :post="post" />
@@ -39,7 +39,6 @@ export default {
       try {
         let res = await this.$axios.get(`/api/post/${this.id}`);
         this.post = res.data;
-        console.log(this.post);
       } catch (error) {
         console.log(error);
       }

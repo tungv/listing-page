@@ -1,6 +1,14 @@
 <template>
-  <div class="commentSection" v-if="commentSectionOffsetTop && comments" ref="commentSection">
-    <div class="commentSection_head" v-for="(comment) in comments" :key="comment.id">
+  <div
+    class="commentSection"
+    v-if="commentSectionOffsetTop && comments"
+    ref="commentSection"
+  >
+    <div
+      class="commentSection_head"
+      v-for="comment in comments"
+      :key="comment.id"
+    >
       <div class="commentSection_headAvatar">
         <img
           alt="user-avatar"
@@ -9,7 +17,9 @@
         />
       </div>
       <div class="commentSection_headComment">
-        <span class="commentSection_headUserName">{{ comment.user.displayName }}</span>
+        <span class="commentSection_headUserName">{{
+          comment.user.displayName
+        }}</span>
         <span v-if="comment && comment.content" class="commentSection_content">
           {{ comment.content }}
         </span>
@@ -25,14 +35,19 @@ export default {
   watch: {
     commentSectionOffsetTop: function (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
-        if (this.$refs['commentSection']) {
-          const postDetailContainerHeight = document.querySelector(".postDetail").offsetHeight;
-          const commentSectionHeight = postDetailContainerHeight - commentSectionOffsetTop
-          this.$refs['commentSection'].style.height = `${commentSectionHeight}px)`
+        if (this.$refs["commentSection"]) {
+          const postDetailContainerHeight = document.querySelector(
+            ".postDetail"
+          ).offsetHeight;
+          const commentSectionHeight =
+            postDetailContainerHeight - commentSectionOffsetTop;
+          this.$refs[
+            "commentSection"
+          ].style.height = `${commentSectionHeight}px)`;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

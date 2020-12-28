@@ -53,7 +53,7 @@ export default {
       new webpack.ProvidePlugin({
         '_': 'lodash'
       })
-    ]
+    ],
   },
   env: {
     baseUrl: process.env.BASE_URL

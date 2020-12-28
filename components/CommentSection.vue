@@ -1,20 +1,19 @@
 <template>
-  <div class="commentSection">
-    <div class="commentSection_head">
+  <div class="commentSection" v-if="commentSectionOffsetTop && comments" ref="commentSection">
+    <div class="commentSection_head" v-for="(comment) in comments" :key="comment.id">
       <div class="commentSection_headAvatar">
         <img
           alt="user-avatar"
-          :src="avatar || '~/assets/svg/user.svg'"
+          :src="comment.user.avatar || '~/assets/svg/user.svg'"
           class="commentSection_headAvatar"
         />
       </div>
-      <div class="commentSection_headUser">
-        <div>{{ displayName }}</div>
-        <div>{{ updatedAt }}</div>
+      <div class="commentSection_headComment">
+        <span class="commentSection_headUserName">{{ comment.user.displayName }}</span>
+        <span v-if="comment && comment.content" class="commentSection_content">
+          {{ comment.content }}
+        </span>
       </div>
-    </div>
-    <div v-if="post && post.content" class="commentSection_content">
-      {{ post.content }}
     </div>
   </div>
 </template>
@@ -22,56 +21,47 @@
 <script>
 export default {
   name: "CommentSection",
-  props: ["comments"],
+  props: ["comments", "commentSectionOffsetTop"],
+  watch: {
+    commentSectionOffsetTop: function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        if (this.$refs['commentSection']) {
+          const postDetailContainerHeight = document.querySelector(".postDetail").offsetHeight;
+          const commentSectionHeight = postDetailContainerHeight - commentSectionOffsetTop
+          this.$refs['commentSection'].style.height = `${commentSectionHeight}px)`
+        }
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .commentSection {
-  padding: 20px;
+  padding-top: 20px;
   &_head {
     display: flex;
-    align-items: center;
-    font-weight: bold;
+    align-items: flex-start;
+    margin-bottom: 5px;
     &Avatar {
-      width: $userAvatarSize;
-      height: $userAvatarSize;
+      width: $userAvatarCommentSize;
+      height: $userAvatarCommentSize;
     }
     &User {
       display: flex;
       flex-direction: column;
       margin-left: 5px;
+      &Name {
+        font-weight: bold;
+      }
+    }
+    &Comment {
+      margin-left: 4px;
     }
   }
   &_content {
-    margin-top: 10px;
     @include max-5-lines;
-  }
-  &_place {
-    &Name {
-      color: $blue;
-    }
-  }
-  &_category {
-    &Tag {
-      color: white;
-      background-color: black;
-      padding: 4px 8px;
-      border-radius: $tagBorderRadius;
-      display: inline-block;
-      margin-bottom: 4px;
-      font-size: 0.75rem;
-      &:not(:last-child) {
-        margin-right: 4px;
-      }
-    }
-  }
-  &_reaction {
-    display: flex;
-    &Like {
-    }
-    &Comment {
-      margin-left: 10px;
-    }
+    margin-left: 4px;
+    display: inline;
   }
 }
 </style>

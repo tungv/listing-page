@@ -2,8 +2,10 @@
   <div class="container">
     <div class="container_postDetail">
       <ImageSlider :post="post" />
-      <PostDetail :post="post" />
-      <CommentSection v-if="comments && comments.length" :comments="comments" />
+      <PostDetail :post="post" :comments="comments"/>
+    </div>
+    <div class="container_recommendations">
+      <Recommendation :post="post" />
     </div>
   </div>
 </template>
@@ -106,7 +108,7 @@ export default {
   min-height: 100vh;
   padding-left: 5%;
   padding-right: 5%;
-  background-color: red;
+  // background-color: red;
 }
 
 .title {

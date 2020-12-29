@@ -78,6 +78,7 @@ export default {
             content: get(this.post, "content"),
           },
           {
+            hid: "og:image",
             property: "og:image",
             content: get(this.post, "images[0]", DEFAULT_SHARE_THUMBNAIL),
           },

@@ -62,18 +62,22 @@ export default {
             content: "width=device-width, initial-scale=1",
           },
           {
+            hid: "og:url",
             property: "og:url",
             content: window.location,
           },
           {
+            hid: "og:type",
             property: "og:type",
             content: "website",
           },
           {
+            hid: "og:title",
             property: "og:title",
             content: "title",
           },
           {
+            hid: "og:description",
             property: "og:description",
             content: get(this.post, "content"),
           },

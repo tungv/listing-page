@@ -39,7 +39,8 @@ export default {
     ['@nuxtjs/fontawesome', {
       component: 'Fa',
       suffix: true
-    }]
+    }],
+    '@nuxtjs/netlify-files',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)

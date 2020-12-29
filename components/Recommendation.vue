@@ -1,9 +1,19 @@
 <template>
   <div v-if="popularPosts && popularPosts.length" class="recommendation">
-    <vue-masonry-wall :items="popularPosts">
+    <vue-masonry-wall
+      :items="popularPosts"
+      :options="{ width: 300, padding: 12 }"
+      :ssr="{ columns: 2 }"
+    >
       <template v-slot:default="{ item }">
         <div class="item">
-          <img :src="item.images[0]" :alt="item.content" />
+          <NuxtLink :to="'/?id=' + item.id">
+            <img
+              :src="item.images[0]"
+              :alt="item.content"
+              class="recommendation_mansonryImg"
+            />
+          </NuxtLink>
         </div>
       </template>
     </vue-masonry-wall>
@@ -15,8 +25,7 @@ import VueMasonryWall from "vue-masonry-wall";
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -68,5 +77,11 @@ export default {
 <style lang="scss" scoped>
 .recommendation {
   width: 100%;
+  &_mansonry {
+    &Img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
 }
 </style>

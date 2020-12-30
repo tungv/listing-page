@@ -73,9 +73,9 @@ export default {
     },
     proxy: true
   },
-  proxy: {
-    '/api/': { target: process.env.BASE_URL, pathRewrite: { '^/api/': '' } }
-  },
+  // proxy: {
+  //   '/api/': { target: process.env.BASE_URL, pathRewrite: { '^/api/': '' } }
+  // },
   styleResources: {
     scss: ['./assets/scss/*.scss']
   },

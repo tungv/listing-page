@@ -1,0 +1,3 @@
+/api/post/*  https://urich-server.herokuapp.com/api/web/:splat
+/api/comment/*  https://urich-server.herokuapp.com/api/web/comment/:splat
+/api/popular/  https://urich-server.herokuapp.com/api/web/popular

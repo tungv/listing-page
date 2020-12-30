@@ -76,6 +76,8 @@ export default {
             hid: "og:url",
             property: "og:url",
             content: this.$route.path,
+            content:
+              "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
           },
           {
             hid: "og:type",
@@ -90,12 +92,14 @@ export default {
           {
             hid: "og:description",
             property: "og:description",
-            content: get(this.post, "content"),
+            content: 'get(this.post, "content")',
           },
           {
             hid: "og:image",
             property: "og:image",
-            content: get(this.post, "images[0]", DEFAULT_SHARE_THUMBNAIL),
+            // content: get(this.post, "images[0]", DEFAULT_SHARE_THUMBNAIL),
+            content:
+              "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
           },
         ],
       };

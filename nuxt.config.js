@@ -10,7 +10,19 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'test listing' }
+      { hid: 'description', name: 'description', content: 'test listing' },
+      {
+        hid: "og:url",
+        property: "og:url",
+        content:
+          "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
+      },
+      {
+        hid: "og:image",
+        property: "og:image",
+        content:
+          "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

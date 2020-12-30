@@ -37,7 +37,7 @@ export default {
   methods: {
     async fetchPost() {
       try {
-        let res = await this.$axios.get(`/post/${this.id}`);
+        let res = await this.$axios.get(`/api/post/${this.id}`);
         this.post = res.data;
       } catch (error) {
         console.log(error);
@@ -45,7 +45,7 @@ export default {
     },
     async fetchComments(commentRefId) {
       try {
-        let res = await this.$axios.post(`/comment/${commentRefId}`);
+        let res = await this.$axios.post(`/api/comment/${commentRefId}`);
         this.comments = res.data.comments;
         console.log(this.comments);
       } catch (error) {

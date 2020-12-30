@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async fetPopularPosts() {
-      let res = await this.$axios.post("/post/popular");
+      let res = await this.$axios.post("/api/post/popular");
       this.popularPosts = res.data;
       console.log("***********");
       console.log(res.data);

@@ -32,7 +32,7 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     '@nuxtjs/dotenv',
-    '@nuxtjs/axios',
+    ['@nuxtjs/axios', { baseURL: 'https://urich-server.herokuapp.com/api/web' }],
     '@nuxtjs/proxy',
     '@nuxtjs/style-resources',
     '@nuxtjs/svg',
@@ -73,9 +73,9 @@ export default {
     },
     proxy: true
   },
-  // proxy: {
-  //   '/api/': { target: process.env.BASE_URL, pathRewrite: { '^/api/': '' } }
-  // },
+  proxy: {
+    '/api/': { target: process.env.BASE_URL, pathRewrite: { '^/api/': '' } }
+  },
   styleResources: {
     scss: ['./assets/scss/*.scss']
   },

@@ -21,10 +21,7 @@
         <fa icon="envelope" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div
-        v-if="post && post.topics && post.topics.length"
-        class="postDetail_category"
-      >
+      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -35,11 +32,12 @@
         <div v-if="post.likeRef" class="postDetail_reactionLike">
           <fa-icon icon="dollar-sign" style="font-size: 30px" />
           {{ post.likeRef.count || 0 }}
-        </div>
-        <div v-if="post.commentRef" class="postDetail_reactionComment">
-          {{ post.commentRef.count || 0 }}
+          <span v-if="post.commentRef" class="postDetail_reactionComment">
+            {{ post.commentRef.count || 0 }}
+          </span>
         </div>
         <div
+          id="fb-root"
           class="fb-share-button"
           :data-href="location"
           data-layout="button_count"
@@ -48,7 +46,11 @@
         </div>
       </div>
     </div>
-    <CommentSection v-if="comments && comments.length" :comments="comments" :commentSectionOffsetTop="commentSectionOffsetTop"/>
+    <CommentSection
+      v-if="comments && comments.length"
+      :comments="comments"
+      :commentSectionOffsetTop="commentSectionOffsetTop"
+    />
   </div>
 </template>
 
@@ -59,14 +61,23 @@ export default {
   props: ["post", "comments"],
   data: function () {
     return {
-      commentSectionOffsetTop: null
+      commentSectionOffsetTop: null,
     };
   },
   mounted() {
     if (process.browser) {
       this.location = window.location;
     }
-    this.calculateCSS()
+    this.calculateCSS();
+    (function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
   },
   computed: {
     avatar: function () {
@@ -80,14 +91,16 @@ export default {
     },
   },
   methods: {
-    calculateCSS () {
-      if (typeof document !== 'undefined') {
-        if (this.$refs['postDetail_wrapperHead']) {
-          this.commentSectionOffsetTop = this.$refs['postDetail_wrapperHead'].offsetHeight
+    calculateCSS() {
+      if (typeof document !== "undefined") {
+        if (this.$refs["postDetail_wrapperHead"]) {
+          this.commentSectionOffsetTop = this.$refs[
+            "postDetail_wrapperHead"
+          ].offsetHeight;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -136,6 +149,7 @@ export default {
   }
   &_reaction {
     display: flex;
+    justify-content: space-between;
     &Like {
     }
     &Comment {

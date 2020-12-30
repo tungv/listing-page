@@ -75,7 +75,7 @@ export default {
           {
             hid: "og:url",
             property: "og:url",
-            content: this.$route.path,
+            // content: this.$route.path,
             content:
               "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
           },

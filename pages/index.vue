@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div id="fb-root"></div>
     <div class="container_postDetail">
       <ImageSlider :post="post" />
       <PostDetail :post="post" :comments="comments" />
@@ -55,6 +56,16 @@ export default {
     head() {
       return {
         title: get(this.post, "content", "page title"),
+        script: [
+          {
+            hid: "facebook",
+            src:
+              "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v9.0&appId=1177682459073267&autoLogAppEvents=1",
+            defer: true,
+            async: true,
+            nonce: "36uC68Zf",
+          },
+        ],
         meta: [
           { charset: "utf-8" },
           {

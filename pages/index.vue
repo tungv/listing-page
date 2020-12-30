@@ -75,7 +75,7 @@ export default {
           {
             hid: "og:url",
             property: "og:url",
-            content: window.location,
+            content: this.$route.path,
           },
           {
             hid: "og:type",
@@ -123,7 +123,6 @@ export default {
   min-height: 100vh;
   padding-left: 5%;
   padding-right: 5%;
-  // background-color: red;
 }
 
 .title {

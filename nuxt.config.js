@@ -18,10 +18,16 @@ export default {
           "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
       },
       {
+        hid: "og:description",
+        property: "og:description",
+        content:
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      },
+      {
         hid: "og:image",
         property: "og:image",
         content:
-          "@/assets/images/default-thumbnail-social-share.jpeg",
+          "~assets/images/default-thumbnail-social-share.jpeg",
       },
     ],
     link: [

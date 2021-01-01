@@ -27,7 +27,7 @@ export default {
         hid: "og:image",
         property: "og:image",
         content:
-          "~assets/images/default-thumbnail-social-share.jpeg",
+          "https://upbeat-panini-d9f351.netlify.app" + "/assets/images/default-thumbnail-social-share.png",
       },
     ],
     link: [

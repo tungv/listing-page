@@ -66,7 +66,8 @@ export default {
             nonce: "36uC68Zf",
           },
         ],
-    }
+      };
+    },
   },
   watch: {
     post: {

@@ -22,13 +22,7 @@ export default {
         property: "og:description",
         content:
           "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      },
-      {
-        hid: "og:image",
-        property: "og:image",
-        content:
-          "~/assets/images/default-thumbnail-social-share.png",
-      },
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

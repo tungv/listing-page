@@ -21,7 +21,7 @@ export default {
         hid: "og:image",
         property: "og:image",
         content:
-          "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+          "@/assets/images/default-thumbnail-social-share.jpeg",
       },
     ],
     link: [

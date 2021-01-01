@@ -27,7 +27,7 @@ export default {
         hid: "og:image",
         property: "og:image",
         content:
-          "https://upbeat-panini-d9f351.netlify.app" + "/assets/images/default-thumbnail-social-share.png",
+          "~/assets/images/default-thumbnail-social-share.png",
       },
     ],
     link: [
@@ -59,6 +59,7 @@ export default {
       suffix: true
     }],
     '@nuxtjs/netlify-files',
+    '@nuxt/content',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)

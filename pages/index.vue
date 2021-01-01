@@ -66,6 +66,13 @@ export default {
             nonce: "36uC68Zf",
           },
         ],
+        meta: [
+          {
+            hid: "description",
+            name: "description",
+            content: get(this.post, "content", "page content"),
+          },
+        ],
       };
     },
   },

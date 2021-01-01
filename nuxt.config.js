@@ -6,24 +6,24 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'listing-page',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'test listing' },
-      {
-        hid: "og:url",
-        property: "og:url",
-        content:
-          "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
-      },
-      {
-        hid: "og:description",
-        property: "og:description",
-        content:
-          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      }
-    ],
+    // title: 'listing-page',
+    // meta: [
+    //   { charset: 'utf-8' },
+    //   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    //   { hid: 'description', name: 'description', content: 'test listing' },
+    //   {
+    //     hid: "og:url",
+    //     property: "og:url",
+    //     content:
+    //       "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
+    //   },
+    //   {
+    //     hid: "og:description",
+    //     property: "og:description",
+    //     content:
+    //       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    //   }
+    // ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]

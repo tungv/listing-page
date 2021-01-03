@@ -25,7 +25,8 @@ import VueMasonryWall from "vue-masonry-wall";
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -77,6 +78,7 @@ export default {
 <style lang="scss" scoped>
 .recommendation {
   width: 100%;
+  margin-top: 20px;
   &_mansonry {
     &Img {
       width: 100%;

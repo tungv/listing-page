@@ -17,11 +17,17 @@
       <div v-if="post && post.content" class="postDetail_content">
         {{ post.content }}
       </div>
-      <div v-if="post && post.place && post.place.name" class="postDetail_place">
+      <div
+        v-if="post && post.place && post.place.name"
+        class="postDetail_place"
+      >
         <fa icon="envelope" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
+      <div
+        v-if="post && post.topics && post.topics.length"
+        class="postDetail_category"
+      >
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -30,13 +36,14 @@
       </div>
       <div v-if="post" class="postDetail_reaction">
         <div v-if="post.likeRef" class="postDetail_reactionLike">
-          <fa-icon icon="dollar-sign" style="font-size: 30px" />
           {{ post.likeRef.count || 0 }}
+          <font-awesome-icon :icon="['far', 'comment']" />
           <span v-if="post.commentRef" class="postDetail_reactionComment">
             {{ post.commentRef.count || 0 }}
           </span>
+          <font-awesome-icon :icon="['far', 'heart']" />
         </div>
-        <div
+        <!-- <div
           class="fb-share-button"
           data-href="https://developers.facebook.com/docs/plugins/"
           data-layout="button_count"
@@ -49,6 +56,16 @@
             >share</a
           >
         </div>
+        <ShareNetwork
+          network="facebook"
+          :url="path"
+          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
+          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
+          :quote="quote"
+          hashtags="vuejs,vite"
+        >
+          Share on Facebook
+        </ShareNetwork> -->
       </div>
     </div>
     <CommentSection
@@ -58,7 +75,6 @@
     />
   </div>
 </template>
-
 <script>
 import { get } from "lodash";
 
@@ -73,6 +89,7 @@ export default {
     if (process.browser) {
       this.location = window.location;
     }
+    console.log(this.path);
     this.calculateCSS();
     (function (d, s, id) {
       var js,
@@ -94,6 +111,16 @@ export default {
     updatedAt: function () {
       return get(this.post, "updatedAt", "");
     },
+    path: function () {
+      if (process.browser) {
+        // this.path = window.location.href;
+        return "https://upbeat-panini-d9f351.netlify.app/?id=5fcb497326c01c0024124bba";
+      }
+      return "";
+    },
+    quote: function () {
+      return get(this.post, "content", "description content");
+    },
   },
   methods: {
     calculateCSS() {
@@ -113,8 +140,12 @@ export default {
 .postDetail {
   width: 60%;
   height: 500px;
+  max-height: 500px;
   background-color: white;
   padding: 20px;
+  &_wrapperHead {
+    // max-height: 50%;
+  }
   &_head {
     display: flex;
     align-items: center;
@@ -132,11 +163,13 @@ export default {
   &_content {
     margin-top: 10px;
     @include max-5-lines;
+    margin-bottom: 10px;
   }
   &_place {
     &Name {
       color: $blue;
     }
+    margin-bottom: 10px;
   }
   &_category {
     &Tag {
@@ -145,7 +178,7 @@ export default {
       padding: 4px 8px;
       border-radius: $tagBorderRadius;
       display: inline-block;
-      margin-bottom: 4px;
+      margin-bottom: 10px;
       font-size: 0.75rem;
       &:not(:last-child) {
         margin-right: 4px;

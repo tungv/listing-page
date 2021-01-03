@@ -48,12 +48,28 @@ export default {
     '@nuxtjs/proxy',
     '@nuxtjs/style-resources',
     '@nuxtjs/svg',
-    ['@nuxtjs/fontawesome', {
-      component: 'Fa',
-      suffix: true
-    }],
+    [
+      'nuxt-fontawesome', {
+        imports: [
+          {
+            set: '@fortawesome/free-regular-svg-icons',
+            icons: ['faHeart', 'faComment']
+          },
+          {
+            set: '@fortawesome/free-solid-svg-icons',
+            icons: ['fas']
+          },
+          {
+            set: '@fortawesome/free-brands-svg-icons',
+            icons: ['fab']
+          }
+        ]
+      }
+    ],
     '@nuxtjs/netlify-files',
     '@nuxt/content',
+    'vue-social-sharing/nuxt',
+    '@nuxtjs/moment',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)

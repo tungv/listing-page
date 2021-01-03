@@ -25,6 +25,14 @@ export default {
       comments: [],
     };
   },
+  // asyncData(context) {
+  //   console.log(context);
+  //   return context.$axios
+  //     .get(`/api/post/${context.route.query.id}`)
+  //     .then((res) => {
+  //       return { post: res.data };
+  //     });
+  // },
   created() {
     if (this.$route.query.id) this.id = this.$route.query.id;
     this.fetchPost(this.$route.query.id);
@@ -34,7 +42,6 @@ export default {
       this.fetchComments(this.post.commentRef.id);
     }
   },
-  mounted() {},
   methods: {
     async fetchPost() {
       try {
@@ -123,5 +130,16 @@ export default {
 }
 .container_postDetail {
   display: flex;
+  flex-direction: column;
+}
+@media print, screen and (min-width: $breakpoint-tablet) {
+  .container_postDetail {
+    flex-direction: row;
+  }
+}
+@media print, screen and (max-width: $breakpoint-tablet) {
+  .container_postDetail {
+    flex-direction: column;
+  }
 }
 </style>

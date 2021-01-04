@@ -2,32 +2,20 @@
   <div class="postDetail">
     <div class="postDetail_wrapperHead" ref="postDetail_wrapperHead">
       <div class="postDetail_head">
-        <div class="postDetail_headAvatar">
-          <img
-            alt="user-avatar"
-            :src="avatar || '~/assets/svg/user.svg'"
-            class="postDetail_headAvatar"
-          />
-        </div>
+        <avatar :src="avatar" avaClass="postDetail_headAvatar"></avatar>
         <div class="postDetail_headUser">
           <div>{{ displayName }}</div>
-          <div>{{ updatedAt }}</div>
+          <div>{{ $moment(updatedAt).format("MMM d") }}</div>
         </div>
       </div>
       <div v-if="post && post.content" class="postDetail_content">
         {{ post.content }}
       </div>
-      <div
-        v-if="post && post.place && post.place.name"
-        class="postDetail_place"
-      >
-        <fa icon="envelope" />
+      <div v-if="post && post.place && post.place.name" class="postDetail_place">
+        <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div
-        v-if="post && post.topics && post.topics.length"
-        class="postDetail_category"
-      >
+      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -72,6 +60,7 @@
       v-if="comments && comments.length"
       :comments="comments"
       :commentSectionOffsetTop="commentSectionOffsetTop"
+      :fetchingComment="fetchingComment"
     />
   </div>
 </template>
@@ -79,7 +68,7 @@
 import { get } from "lodash";
 
 export default {
-  props: ["post", "comments"],
+  props: ["post", "comments", "fetchingPost", "fetchingComment"],
   data: function () {
     return {
       commentSectionOffsetTop: null,
@@ -89,8 +78,6 @@ export default {
     if (process.browser) {
       this.location = window.location;
     }
-    console.log(this.path);
-    this.calculateCSS();
     (function (d, s, id) {
       var js,
         fjs = d.getElementsByTagName(s)[0];
@@ -100,6 +87,7 @@ export default {
       js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
       fjs.parentNode.insertBefore(js, fjs);
     })(document, "script", "facebook-jssdk");
+    // this.calculateCSS();
   },
   computed: {
     avatar: function () {
@@ -125,10 +113,10 @@ export default {
   methods: {
     calculateCSS() {
       if (typeof document !== "undefined") {
-        if (this.$refs["postDetail_wrapperHead"]) {
-          this.commentSectionOffsetTop = this.$refs[
-            "postDetail_wrapperHead"
-          ].offsetHeight;
+        if (document.querySelector(".postDetail_wrapperHead")) {
+          this.commentSectionOffsetTop = document.querySelector(
+            ".postDetail_wrapperHead"
+          ).offsetHeight;
         }
       }
     },
@@ -139,12 +127,14 @@ export default {
 <style lang="scss">
 .postDetail {
   width: 60%;
-  height: 500px;
-  max-height: 500px;
+  max-height: 100%;
   background-color: white;
-  padding: 20px;
+  position: relative;
   &_wrapperHead {
-    // max-height: 50%;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    overflow-y: scroll;
   }
   &_head {
     display: flex;

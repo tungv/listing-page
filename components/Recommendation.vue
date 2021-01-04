@@ -7,7 +7,7 @@
     >
       <template v-slot:default="{ item }">
         <div class="item">
-          <NuxtLink :to="'/?id=' + item.id">
+          <NuxtLink :to="{ path: '/?id=' + item.id }">
             <img
               :src="item.images[0]"
               :alt="item.content"
@@ -25,8 +25,7 @@ import VueMasonryWall from "vue-masonry-wall";
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));

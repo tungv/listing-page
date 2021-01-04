@@ -1,37 +1,6 @@
 <template>
-  <div
-    class="commentSection"
-    v-if="commentSectionOffsetTop && comments"
-    ref="commentSection"
-  >
-    <div
-      class="commentSection_head"
-      v-for="comment in comments"
-      :key="comment.id"
-    >
-      <div class="commentSection_headAvatar">
-        <img
-          v-if="comment.user.avatar"
-          alt="user-avatar"
-          :src="comment.user.avatar"
-          class="commentSection_headAvatar"
-        />
-        <!-- <font-awesome-icon :icon="['far', 'user']" /> -->
-      </div>
-      <div class="commentSection_headComment">
-        <span class="commentSection_headUserName">{{
-          comment.user.displayName
-        }}</span>
-        <span v-if="comment && comment.content" class="commentSection_content">
-          {{ comment.content }}
-        </span>
-      </div>
-    </div>
-    <div
-      class="commentSection_head"
-      v-for="comment in comments"
-      :key="comment.id"
-    >
+  <div class="commentSection" v-if="comments" ref="commentSection">
+    <div class="commentSection_head" v-for="comment in comments" :key="comment.id">
       <div class="commentSection_headAvatar">
         <img
           alt="user-avatar"
@@ -41,25 +10,20 @@
       </div>
       <div class="commentSection_headComment">
         <div class="commentSection_headContent">
-          <span class="commentSection_headUserName">{{
-            comment.user.displayName
-          }}</span>
-          <span
-            v-if="comment && comment.content"
-            class="commentSection_content"
-          >
+          <span class="commentSection_headUserName">{{ comment.user.displayName }}</span>
+          <span v-if="comment && comment.content" class="commentSection_content">
             {{ comment.content }}
           </span>
         </div>
-        <div class="commentSection_headReaction">
+        <div
+          class="commentSection_headReaction"
+          v-if="comment && (comment.updatedAt || comment.likeRef)"
+        >
           <font-awesome-icon :icon="['far', 'heart']" />
-          <span class="commentSection_headUserName">{{
+          <span class="">{{
             (comment && comment.likeRef && comment.likeRef.count) || 0
           }}</span>
-          <span
-            v-if="comment && comment.content"
-            class="commentSection_content"
-          >
+          <span v-if="comment && comment.updatedAt" class="commentSection_content">
             {{ $moment(comment.updatedAt).format("MMM d") }}
           </span>
         </div>
@@ -77,8 +41,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .commentSection {
-  padding-top: 20px;
+  padding: 20px;
   overflow-y: scroll;
+  width: 100%;
+  position: absolute;
+  max-height: calc(100% - 200px);
+  top: 200px;
+  @include scrollBar;
   &_head {
     display: flex;
     align-items: flex-start;
@@ -99,7 +68,8 @@ export default {
     &Comment {
       margin-left: 4px;
     }
-    &Reactions {
+    &Reaction {
+      color: $grey-1;
     }
   }
   &_content {

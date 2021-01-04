@@ -2,8 +2,13 @@
   <div class="container">
     <div id="fb-root"></div>
     <div class="container_postDetail">
-      <ImageSlider :post="post" />
-      <PostDetail :post="post" :comments="comments" />
+      <ImageSlider :post="post" :fetchingPost="$fetchState.pending" />
+      <PostDetail
+        :post="post"
+        :comments="comments"
+        :fetchingPost="fetchingPost"
+        :fetchingComment="fetchingComment"
+      />
     </div>
     <div class="container_recommendations">
       <Recommendation :post="post" />
@@ -23,16 +28,10 @@ export default {
       post: null,
       id: null,
       comments: [],
+      fetchingPost: false,
+      fetchingComment: false,
     };
   },
-  // asyncData(context) {
-  //   console.log(context);
-  //   return context.$axios
-  //     .get(`/api/post/${context.route.query.id}`)
-  //     .then((res) => {
-  //       return { post: res.data };
-  //     });
-  // },
   created() {
     if (this.$route.query.id) this.id = this.$route.query.id;
     this.fetchPost(this.$route.query.id);
@@ -43,21 +42,28 @@ export default {
     }
   },
   methods: {
-    async fetchPost() {
+    async fetchPost(id) {
       try {
-        let res = await this.$axios.get(`/api/post/${this.id}`);
+        this.fetchingPost = true;
+        let res = id
+          ? await this.$axios.get(`/api/post/${id}`)
+          : await this.$axios.get(`/api/post/${this.id}`);
         this.post = res.data;
       } catch (error) {
         console.log(error);
+      } finally {
+        this.fetchingPost = false;
       }
     },
     async fetchComments(commentRefId) {
       try {
+        this.fetchingComment = true;
         let res = await this.$axios.post(`/api/comment/${commentRefId}`);
         this.comments = res.data.comments;
-        console.log(this.comments);
       } catch (error) {
         console.log(error);
+      } finally {
+        this.fetchingComment = false;
       }
     },
     head() {
@@ -83,6 +89,10 @@ export default {
       };
     },
   },
+  async fetch() {
+    // Called also on query changes
+    this.fetchPost(this.$route.query.id);
+  },
   watch: {
     post: {
       handler(newVal, old) {
@@ -95,6 +105,7 @@ export default {
         }
       },
     },
+    "$route.query": "$fetch",
   },
 };
 </script>

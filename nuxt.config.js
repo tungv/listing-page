@@ -53,7 +53,7 @@ export default {
         imports: [
           {
             set: '@fortawesome/free-regular-svg-icons',
-            icons: ['faHeart', 'faComment']
+            icons: ['faHeart', 'faComment', 'faUser']
           },
           {
             set: '@fortawesome/free-solid-svg-icons',
@@ -61,7 +61,7 @@ export default {
           },
           {
             set: '@fortawesome/free-brands-svg-icons',
-            icons: ['fab']
+            icons: []
           }
         ]
       }

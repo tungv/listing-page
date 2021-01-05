@@ -4,13 +4,18 @@ $loadMoreButtonSize: 32px;
 $loadMoreButtonFontSize: 24px;
 $sliderDotsHeight: 25px;
 $postDetailMinHeight: 500px;
+$loadingSkeletonUsernameWidth: 250px;
+$loadingSkeletonUsernameHeight: 12px;
+$loadingSkeletonTagHeight: 23px;
+$loadingSkeletonTagWidth: 70px;
+$loadingSkeletonReactionItemWidth: 25px;
 
 // breakpoint
 $breakpoint-tablet: 768px;
 
 // color
 $blue: #00376b;
-$grey: #DDDBDD;
+$grey: #dddbdd;
 $grey-1: #979697;
 // style
 $tagBorderRadius: 4px;
@@ -33,22 +38,23 @@ $tagBorderRadius: 4px;
   overflow: overlay;
 
   &::-webkit-scrollbar {
-      width: 4px;
-      height: 8px;
+    width: 4px;
+    height: 8px;
   }
 
   &::-webkit-scrollbar-track {
-      display: none;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {
-      background-color: rgba(102, 102, 102, 0.16);
-      outline: 1px solid rgba(102, 102, 102, 0.16);
-      border-radius: 2px;
+    background-color: rgba(102, 102, 102, 0.16);
+    outline: 1px solid rgba(102, 102, 102, 0.16);
+    border-radius: 2px;
   }
-  &::-webkit-scrollbar-thumb:horizontal:hover, &::-webkit-scrollbar-thumb:vertical:hover {
-      background-color: rgba(102, 102, 102, 0.5);
-      outline: 1px solid rgba(102, 102, 102, 0.5);
+  &::-webkit-scrollbar-thumb:horizontal:hover,
+  &::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: rgba(102, 102, 102, 0.5);
+    outline: 1px solid rgba(102, 102, 102, 0.5);
   }
 }
 
@@ -83,7 +89,7 @@ $tagBorderRadius: 4px;
       rgba(#fff, 0)
     );
     animation: shimmer 5s infinite;
-    content: '';
+    content: "";
   }
 
   @keyframes shimmer {

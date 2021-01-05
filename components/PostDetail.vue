@@ -1,8 +1,16 @@
 <template>
   <div class="postDetail">
-    <div class="postDetail_wrapperHead" ref="postDetail_wrapperHead">
+    <div
+      class="postDetail_wrapperHead"
+      v-if="!fetchingPost"
+      ref="postDetail_wrapperHead"
+    >
       <div class="postDetail_head">
-        <avatar v-if="post" :src="avatar" avaClass="postDetail_headAvatar"></avatar>
+        <avatar
+          v-if="post"
+          :src="avatar"
+          avaClass="postDetail_headAvatar"
+        ></avatar>
         <div class="postDetail_headUser" v-if="displayName && updatedAt">
           <div>{{ displayName }}</div>
           <div>{{ $moment(updatedAt).format("MMM d") }}</div>
@@ -11,11 +19,17 @@
       <div v-if="post && post.content" class="postDetail_content">
         {{ post.content }}
       </div>
-      <div v-if="post && post.place && post.place.name" class="postDetail_place">
+      <div
+        v-if="post && post.place && post.place.name"
+        class="postDetail_place"
+      >
         <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
+      <div
+        v-if="post && post.topics && post.topics.length"
+        class="postDetail_category"
+      >
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -31,32 +45,38 @@
           </span>
           <font-awesome-icon :icon="['far', 'heart']" />
         </div>
-        <!-- <div
-          class="fb-share-button"
-          data-href="https://developers.facebook.com/docs/plugins/"
-          data-layout="button_count"
-          data-size="small"
-        >
-          <a
-            target="_blank"
-            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
-            class="fb-xfbml-parse-ignore"
-            >share</a
-          >
-        </div>
-        <ShareNetwork
-          network="facebook"
-          :url="path"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          :quote="quote"
-          hashtags="vuejs,vite"
-        >
-          Share on Facebook
-        </ShareNetwork> -->
       </div>
     </div>
-    <CommentSection :post="post" :commentSectionOffsetTop="commentSectionOffsetTop" />
+    <div
+      class="postDetail_wrapperHead"
+      v-if="fetchingPost"
+      ref="postDetail_wrapperHead"
+    >
+      <div class="postDetail_head">
+        <div class="skeleton-box postDetail_headAvatarSkeleton"></div>
+        <div class="postDetail_headUserLoading">
+          <div class="skeleton-box postDetail_headUserSkeleton"></div>
+          <div class="skeleton-box postDetail_headUserSkeleton"></div>
+        </div>
+      </div>
+      <div class="skeleton-box postDetail_contentLoading"></div>
+      <div class="skeleton-box postDetail_placeLoading"></div>
+      <div class="postDetail_categoryLoading">
+        <template v-for="(_, index) in dummyCategories">
+          <span :key="index" class="skeleton-box postDetail_categoryTagLoading">
+          </span>
+        </template>
+      </div>
+      <div class="postDetail_reaction">
+        <div class="skeleton-box postDetail_reactionLikeLoading">
+          <span class="skeleton-box postDetail_reactionCommentLoading"> </span>
+        </div>
+      </div>
+    </div>
+    <CommentSection
+      :post="post"
+      :commentSectionOffsetTop="commentSectionOffsetTop"
+    />
   </div>
 </template>
 <script>
@@ -67,9 +87,12 @@ export default {
   data: function () {
     return {
       commentSectionOffsetTop: null,
+      dummyCategories: new Array(10),
     };
   },
   mounted() {
+    console.log("console.log(this.fetchingPost)");
+    console.log(this.dummyCategories);
     if (process.browser) {
       this.location = window.location;
     }
@@ -140,23 +163,54 @@ export default {
     &Avatar {
       width: $userAvatarSize;
       height: $userAvatarSize;
+      &Skeleton {
+        width: $userAvatarSize;
+        height: $userAvatarSize;
+        border-radius: 50%;
+      }
     }
     &User {
       display: flex;
       flex-direction: column;
       margin-left: 5px;
+      &Loading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: $userAvatarSize;
+        .postDetail_headUserSkeleton:first-child {
+          margin-bottom: 4px;
+        }
+        margin-left: 5px;
+      }
+      &Grey {
+        background-color: $grey;
+      }
+      &Skeleton {
+        width: $loadingSkeletonUsernameWidth;
+        height: $loadingSkeletonUsernameHeight;
+      }
     }
   }
   &_content {
     margin-top: 10px;
     @include max-5-lines;
     margin-bottom: 10px;
+    &Loading {
+      margin-top: 10px;
+      width: 100%;
+      height: $loadingSkeletonUsernameHeight * 3;
+    }
   }
   &_place {
     &Name {
       color: $blue;
     }
     margin-bottom: 10px;
+    &Loading {
+      width: 100%;
+      height: $loadingSkeletonUsernameHeight;
+    }
   }
   &_category {
     &Tag {
@@ -170,15 +224,37 @@ export default {
       &:not(:last-child) {
         margin-right: 4px;
       }
+      &Loading {
+        width: $loadingSkeletonTagWidth;
+        height: $loadingSkeletonTagHeight;
+        margin-bottom: 10px;
+        &:not(:last-child) {
+          margin-right: 4px;
+        }
+        border-radius: $tagBorderRadius;
+      }
+    }
+    &Loading {
+      width: auto;
+      height: auto;
     }
   }
   &_reaction {
     display: flex;
     justify-content: space-between;
     &Like {
+      &Loading {
+        height: $loadingSkeletonUsernameHeight;
+        width: $loadingSkeletonReactionItemWidth;
+      }
     }
     &Comment {
       margin-left: 10px;
+      &Loading {
+        height: $loadingSkeletonUsernameHeight;
+        width: $loadingSkeletonReactionItemWidth;
+        margin-left: 10px;
+      }
     }
   }
 }

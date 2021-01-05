@@ -9,7 +9,11 @@
           post && post.images.length > 1 && 'imageSliderSlideMultiple',
         ]"
       >
-        <div v-for="(item, id) in post.images" :key="id" class="imageSliderSlideItem">
+        <div
+          v-for="(item, id) in post.images"
+          :key="id"
+          class="imageSliderSlideItem"
+        >
           <img :src="item" alt="" class="imageSliderSlideItemImg" />
         </div>
       </VueSlickCarousel>
@@ -38,6 +42,10 @@ export default {
   name: "ImageSlider",
   components: { VueSlickCarousel },
   props: ["post", "fetchingPost"],
+  mounted() {
+    console.log("console.log(this.fetchingPost);");
+    console.log(this.fetchingPost);
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div class="container">
     <div id="fb-root"></div>
     <div class="container_postDetail">
-      <ImageSlider :post="post" :fetchingPost="$fetchState.pending" />
+      <ImageSlider :post="post" :fetchingPost="fetchingPost" />
       <PostDetail :post="post" :fetchingPost="fetchingPost" />
     </div>
     <div class="container_recommendations">
@@ -32,6 +32,8 @@ export default {
     async fetchPost(id) {
       try {
         this.fetchingPost = true;
+        console.log("console.log(this.fetchingPost)");
+        console.log(this.fetchingPost);
         let res = id
           ? await this.$axios.get(`/api/post/${id}`)
           : await this.$axios.get(`/api/post/${this.id}`);

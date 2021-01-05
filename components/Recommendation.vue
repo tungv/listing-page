@@ -21,7 +21,8 @@ const MANSONARY_OPTION = { width: 300, padding: 12 };
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -46,7 +47,6 @@ export default {
   },
   methods: {
     async fetchPopularPosts(page) {
-      console.log(page);
       let res = await this.$axios.post(
         `/api/post/popular?page=${
           page ? page : this.currentPage
@@ -69,7 +69,6 @@ export default {
           this.fetchPopularPosts(this.currentPage + 1);
         } catch (error) {
         } finally {
-          this.currentPage = this.currentPage + 1;
         }
       }
     },

@@ -3,12 +3,7 @@
     <div id="fb-root"></div>
     <div class="container_postDetail">
       <ImageSlider :post="post" :fetchingPost="$fetchState.pending" />
-      <PostDetail
-        :post="post"
-        :comments="comments"
-        :fetchingPost="fetchingPost"
-        :fetchingComment="fetchingComment"
-      />
+      <PostDetail :post="post" :fetchingPost="fetchingPost" />
     </div>
     <div class="container_recommendations">
       <Recommendation :post="post" />
@@ -17,8 +12,6 @@
 </template>
 
 <script>
-import { get } from "lodash";
-
 const DEFAULT_SHARE_THUMBNAIL =
   "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
 
@@ -27,20 +20,14 @@ export default {
     return {
       post: null,
       id: null,
-      comments: [],
       fetchingPost: false,
-      fetchingComment: false,
     };
   },
   created() {
     if (this.$route.query.id) this.id = this.$route.query.id;
     this.fetchPost(this.$route.query.id);
   },
-  mounted() {
-    if (get(this.post, "commentRef.id", null)) {
-      this.fetchComments(this.post.commentRef.id);
-    }
-  },
+  mounted() {},
   methods: {
     async fetchPost(id) {
       try {
@@ -53,17 +40,6 @@ export default {
         console.log(error);
       } finally {
         this.fetchingPost = false;
-      }
-    },
-    async fetchComments(commentRefId) {
-      try {
-        this.fetchingComment = true;
-        let res = await this.$axios.post(`/api/comment/${commentRefId}`);
-        this.comments = res.data.comments;
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.fetchingComment = false;
       }
     },
     head() {
@@ -94,17 +70,6 @@ export default {
     this.fetchPost(this.$route.query.id);
   },
   watch: {
-    post: {
-      handler(newVal, old) {
-        if (
-          newVal &&
-          get(newVal, "commentRef.id", null) &&
-          newVal.commentRef !== get(old, "commentRef", null)
-        ) {
-          this.fetchComments(newVal.commentRef.id);
-        }
-      },
-    },
     "$route.query": "$fetch",
   },
 };

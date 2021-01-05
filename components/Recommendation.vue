@@ -2,19 +2,12 @@
   <div v-if="popularPosts && popularPosts.length" class="recommendation">
     <vue-masonry-wall
       :items="popularPosts"
-      :options="{ width: 300, padding: 12 }"
+      :options="MANSONARY_OPTION"
       :ssr="{ columns: 2 }"
+      @append="append"
     >
       <template v-slot:default="{ item }">
-        <div class="item">
-          <NuxtLink :to="{ path: '/?id=' + item.id }">
-            <img
-              :src="item.images[0]"
-              :alt="item.content"
-              class="recommendation_mansonryImg"
-            />
-          </NuxtLink>
-        </div>
+        <GridItem :item="item" />
       </template>
     </vue-masonry-wall>
   </div>
@@ -22,6 +15,9 @@
 
 <script>
 import VueMasonryWall from "vue-masonry-wall";
+
+const DEFAULT_ITEM_PER_PAGE = 10;
+const MANSONARY_OPTION = { width: 300, padding: 12 };
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
@@ -39,35 +35,42 @@ export default {
   data: function () {
     return {
       popularPosts: [],
-      options: {
-        width: 300,
-        padding: {
-          2: 8,
-          default: 12,
-        },
-      },
-      items: [
-        { title: "Item 0", content: "Content" },
-        { title: "Item 1", content: "Content" },
-      ],
+      options: MANSONARY_OPTION,
+      currentPage: 1,
+      stopFetching: false,
+      MANSONARY_OPTION,
     };
   },
   created() {
-    this.fetPopularPosts();
+    this.fetchPopularPosts();
   },
   methods: {
-    async fetPopularPosts() {
-      let res = await this.$axios.post("/api/post/popular");
-      this.popularPosts = res.data;
-      console.log("***********");
-      console.log(res.data);
+    async fetchPopularPosts(page) {
+      console.log(page);
+      let res = await this.$axios.post(
+        `/api/post/popular?page=${
+          page ? page : this.currentPage
+        }&number=${DEFAULT_ITEM_PER_PAGE}`
+      );
+      if (this.currentPage === 1) {
+        this.popularPosts = res.data;
+      } else {
+        if (res.data && res.data.length) {
+          this.popularPosts = [...this.popularPosts, ...res.data];
+        }
+      }
+      if (!res.data.length) {
+        this.stopFetching = true;
+      }
     },
     append() {
-      for (let i = 0; i < 20; i++) {
-        this.items.push({
-          title: `Item ${this.items.length}`,
-          content: "Content",
-        });
+      if (!this.stopFetching) {
+        try {
+          this.fetchPopularPosts(this.currentPage + 1);
+        } catch (error) {
+        } finally {
+          this.currentPage = this.currentPage + 1;
+        }
       }
     },
   },

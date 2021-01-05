@@ -1,3 +1,4 @@
 /api/post/*  https://urich-server.herokuapp.com/api/web/post/:splat 200!
+/api/comment/reply/*  https://urich-server.herokuapp.com/api/web/comment/reply/:splat 200!
 /api/comment/*  https://urich-server.herokuapp.com/api/web/comment/:splat 200!
 /api/post/popular  https://urich-server.herokuapp.com/api/web/post/popular 200!

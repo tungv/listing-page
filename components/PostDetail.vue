@@ -2,8 +2,8 @@
   <div class="postDetail">
     <div class="postDetail_wrapperHead" ref="postDetail_wrapperHead">
       <div class="postDetail_head">
-        <avatar :src="avatar" avaClass="postDetail_headAvatar"></avatar>
-        <div class="postDetail_headUser">
+        <avatar v-if="post" :src="avatar" avaClass="postDetail_headAvatar"></avatar>
+        <div class="postDetail_headUser" v-if="displayName && updatedAt">
           <div>{{ displayName }}</div>
           <div>{{ $moment(updatedAt).format("MMM d") }}</div>
         </div>
@@ -56,19 +56,14 @@
         </ShareNetwork> -->
       </div>
     </div>
-    <CommentSection
-      v-if="comments && comments.length"
-      :comments="comments"
-      :commentSectionOffsetTop="commentSectionOffsetTop"
-      :fetchingComment="fetchingComment"
-    />
+    <CommentSection :post="post" :commentSectionOffsetTop="commentSectionOffsetTop" />
   </div>
 </template>
 <script>
 import { get } from "lodash";
 
 export default {
-  props: ["post", "comments", "fetchingPost", "fetchingComment"],
+  props: ["post", "fetchingPost", "fetchingComment"],
   data: function () {
     return {
       commentSectionOffsetTop: null,
@@ -130,11 +125,13 @@ export default {
   max-height: 100%;
   background-color: white;
   position: relative;
+  min-height: $postDetailMinHeight;
   &_wrapperHead {
     padding: 20px;
     position: absolute;
     top: 0;
     overflow-y: scroll;
+    width: 100%;
   }
   &_head {
     display: flex;

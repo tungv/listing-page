@@ -1,13 +1,11 @@
 <template>
-  <div class="commentSection" v-if="comments" ref="commentSection">
+  <div class="commentSection" v-if="comments && comments.length" ref="commentSection">
     <div class="commentSection_head" v-for="comment in comments" :key="comment.id">
-      <div class="commentSection_headAvatar">
-        <img
-          alt="user-avatar"
-          :src="comment.user.avatar || '~/assets/svg/user.svg'"
-          class="commentSection_headAvatar"
-        />
-      </div>
+      <avatar
+        v-if="post"
+        :src="comment.user.avatar"
+        avaClass="postDetail_headAvatar"
+      ></avatar>
       <div class="commentSection_headComment">
         <div class="commentSection_headContent">
           <span class="commentSection_headUserName">{{ comment.user.displayName }}</span>
@@ -27,16 +25,88 @@
             {{ $moment(comment.updatedAt).format("MMM d") }}
           </span>
         </div>
+        <ViewReply
+          v-if="comment && comment.replyRef && comment.replyRef.count"
+          :replies="comment.replyRef"
+        />
       </div>
     </div>
+    <div class="commentSection_loadMore">
+      <font-awesome-icon @click="loadMore" :icon="['fas', 'plus-circle']" />
+    </div>
+    <div v-if="count && !stopFetching">plus</div>
   </div>
 </template>
 
 <script>
+import { get } from "lodash";
+import { DEFAULT_ITEM_PER_PAGE } from "@/constants";
+
 export default {
   name: "CommentSection",
-  props: ["comments", "commentSectionOffsetTop"],
+  props: ["commentSectionOffsetTop", "post"],
   computed: {},
+  data: function () {
+    return {
+      comments: [],
+      fetchingComment: false,
+      count: null,
+      currentPage: 1,
+      stopFetching: false,
+    };
+  },
+  methods: {
+    async fetchComments(commentRefId, page) {
+      console.log("zzzzzzzzzzzzz");
+      console.log("zzzzzzzzzzzzz ", page);
+      try {
+        this.fetchingComment = true;
+        console.log(this.currentPage);
+        let res = await this.$axios.post(
+          `/api/comment/${commentRefId}?page=${1}&number=${DEFAULT_ITEM_PER_PAGE}`
+        );
+        this.comments = res.data.comments;
+        console.log(res.data);
+        if (this.currentPage === 1) {
+          this.count = res.data.count;
+        }
+        if (this.currentPage * DEFAULT_ITEM_PER_PAGE <= this.count) {
+          this.currentPage = this.currentPage + 1;
+        } else {
+          this.stopFetching = true;
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.fetchingComment = false;
+      }
+    },
+    loadMore() {
+      console.log("vvv");
+      if (!this.stopFetching) {
+        this.fetchComments(this.post.commentRef.id, this.currentPage + 1);
+      }
+    },
+  },
+  mounted() {
+    if (get(this.post, "commentRef.id", null)) {
+      this.fetchComments(this.post.commentRef.id, null);
+    }
+  },
+  created() {},
+  watch: {
+    post: {
+      handler(newVal, old) {
+        if (
+          newVal &&
+          get(newVal, "commentRef.id", null) &&
+          newVal.commentRef !== get(old, "commentRef", null)
+        ) {
+          this.fetchComments(newVal.commentRef.id, this.currentPage);
+        }
+      },
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -76,6 +146,14 @@ export default {
     @include max-5-lines;
     margin-left: 4px;
     display: inline;
+  }
+  &_loadMore {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $loadMoreButtonFontSize;
+    color: $grey-1;
   }
 }
 </style>

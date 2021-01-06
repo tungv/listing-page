@@ -32,8 +32,6 @@ export default {
     async fetchPost(id) {
       try {
         this.fetchingPost = true;
-        console.log("console.log(this.fetchingPost)");
-        console.log(this.fetchingPost);
         let res = id
           ? await this.$axios.get(`/api/post/${id}`)
           : await this.$axios.get(`/api/post/${this.id}`);

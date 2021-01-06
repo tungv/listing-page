@@ -112,6 +112,7 @@ export default {
   },
   methods: {
     calculateCSS() {
+      console.log('make a change!')
       if (typeof document !== "undefined") {
         if (document.querySelector(".postDetail_wrapperHead")) {
           this.commentSectionOffsetTop = document.querySelector(

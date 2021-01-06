@@ -1,11 +1,15 @@
 <template>
   <div>
-    <!-- <template
+    <template
       class="commentSection"
       v-if="!fetchingComment && !fetchingPost && comments && comments.length"
       ref="commentSection"
     >
-      <div class="commentSection_head" v-for="comment in comments" :key="comment.id">
+      <div
+        class="commentSection_head"
+        v-for="comment in comments"
+        :key="comment.id"
+      >
         <avatar
           v-if="post"
           :src="comment.user.avatar"
@@ -16,7 +20,10 @@
             <span class="commentSection_headUserName">{{
               comment.user.displayName
             }}</span>
-            <span v-if="comment && comment.content" class="commentSection_content">
+            <span
+              v-if="comment && comment.content"
+              class="commentSection_content"
+            >
               {{ comment.content }}
             </span>
           </div>
@@ -28,7 +35,10 @@
             <span class="">{{
               (comment && comment.likeRef && comment.likeRef.count) || 0
             }}</span>
-            <span v-if="comment && comment.updatedAt" class="commentSection_content">
+            <span
+              v-if="comment && comment.updatedAt"
+              class="commentSection_content"
+            >
               {{ $moment(comment.updatedAt).format("MMM d") }}
             </span>
           </div>
@@ -42,14 +52,25 @@
         <font-awesome-icon @click="loadMore" :icon="['fas', 'plus-circle']" />
       </div>
       <div v-if="count && !stopFetching">plus</div>
-    </template> -->
-    <template v-if="fetchingComment || fetchingPost || true">
-      <div class="commentSection" ref="commentSection">
-        <div class="commentSection_head" v-for="(_, index) in dummyComments" :key="index">
+    </template>
+    <template v-if="fetchingComment || fetchingPost">
+      <div
+        class="commentSection commentSectionLoading"
+        id="commentSectionLoading"
+      >
+        <div
+          class="commentSection_head"
+          v-for="(_, index) in dummyComments"
+          :key="index"
+        >
           <div class="skeleton-box commentSection_headAvatarSkeleton"></div>
-          <div class="commentSection_headComment">
+          <div
+            class="commentSection_headComment commentSection_headCommentLoading"
+          >
             <div class="commentSection_headContent">
-              <span class="skeleton-box commentSection_headUserNameSkeleton"></span>
+              <span
+                class="skeleton-box commentSection_headUserNameSkeleton"
+              ></span>
               <span class="skeleton-box commentSection_contentSkeleton"></span>
             </div>
             <div class="commentSection_headReaction">
@@ -83,7 +104,7 @@ export default {
       count: null,
       currentPage: 1,
       stopFetching: false,
-      dummyComments: new Array(10),
+      dummyComments: new Array(5),
     };
   },
   methods: {
@@ -117,13 +138,18 @@ export default {
     },
   },
   mounted() {
-    console.log("console.log(this.fetchingComment);");
-    console.log(this.fetchingComment);
-    console.log('get(this.post, "commentRef.id", null)');
-    console.log(get(this.post, "commentRef.id", null));
     if (get(this.post, "commentRef.id", null)) {
       this.fetchComments(this.post.commentRef.id, null);
     }
+    console.log("aaaaaaaaaaaaaa");
+    // if (
+    //   document.querySelector("#commentSectionLoading") &&
+    //   this.commentSectionOffsetTop
+    // ) {
+    //   document.querySelector(
+    //     "#commentSectionLoading"
+    //   ).style.top = `${this.commentSection}px`;
+    // }
   },
   created() {},
   watch: {
@@ -150,6 +176,9 @@ export default {
   max-height: calc(100% - 200px);
   top: 200px;
   @include scrollBar;
+  &Loading {
+    top: $loadingSkeletonPostDetailHeight;
+  }
   &_head {
     display: flex;
     align-items: flex-start;
@@ -178,6 +207,11 @@ export default {
     }
     &Comment {
       margin-left: 4px;
+      &Loading {
+        height: $userAvatarCommentSize;
+        display: flex;
+        align-items: center;
+      }
     }
     &Reaction {
       color: $grey-1;

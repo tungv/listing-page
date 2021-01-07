@@ -44,6 +44,7 @@ export default {
 <style lang="scss" scoped>
 .imageSlider {
   width: 70vw;
+  max-width: 70vw;
   background-color: white;
   &Slide {
     height: 100%;

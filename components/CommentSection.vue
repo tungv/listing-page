@@ -1,76 +1,56 @@
 <template>
   <div>
-    <template
-      class="commentSection"
-      v-if="!fetchingComment && !fetchingPost && comments && comments.length"
-      ref="commentSection"
-    >
-      <div
-        class="commentSection_head"
-        v-for="comment in comments"
-        :key="comment.id"
-      >
-        <avatar
-          v-if="post"
-          :src="comment.user.avatar"
-          avaClass="postDetail_headAvatar"
-        ></avatar>
-        <div class="commentSection_headComment">
-          <div class="commentSection_headContent">
-            <span class="commentSection_headUserName">{{
-              comment.user.displayName
-            }}</span>
-            <span
-              v-if="comment && comment.content"
-              class="commentSection_content"
-            >
-              {{ comment.content }}
-            </span>
-          </div>
-          <div
-            class="commentSection_headReaction"
-            v-if="comment && (comment.updatedAt || comment.likeRef)"
-          >
-            <font-awesome-icon :icon="['far', 'heart']" />
-            <span class="">{{
-              (comment && comment.likeRef && comment.likeRef.count) || 0
-            }}</span>
-            <span
-              v-if="comment && comment.updatedAt"
-              class="commentSection_content"
-            >
-              {{ $moment(comment.updatedAt).format("MMM d") }}
-            </span>
-          </div>
-          <ViewReply
-            v-if="comment && comment.replyRef && comment.replyRef.count"
-            :replies="comment.replyRef"
-          />
-        </div>
-      </div>
-      <div class="commentSection_loadMore">
-        <font-awesome-icon @click="loadMore" :icon="['fas', 'plus-circle']" />
-      </div>
-      <div v-if="count && !stopFetching">plus</div>
-    </template>
-    <template v-if="fetchingComment || fetchingPost">
-      <div
-        class="commentSection commentSectionLoading"
-        id="commentSectionLoading"
-      >
-        <div
-          class="commentSection_head"
-          v-for="(_, index) in dummyComments"
-          :key="index"
-        >
-          <div class="skeleton-box commentSection_headAvatarSkeleton"></div>
-          <div
-            class="commentSection_headComment commentSection_headCommentLoading"
-          >
+    <div class="commentSection" v-if="!fetchingPost">
+      <template v-if="comments && comments.length">
+        <div class="commentSection_head" v-for="comment in comments" :key="comment.id">
+          <avatar
+            v-if="post"
+            :src="comment.user.avatar"
+            avaClass="postDetail_headAvatar"
+          ></avatar>
+          <div class="commentSection_headComment">
             <div class="commentSection_headContent">
-              <span
-                class="skeleton-box commentSection_headUserNameSkeleton"
-              ></span>
+              <span class="commentSection_headUserName">{{
+                comment.user.displayName
+              }}</span>
+              <span v-if="comment && comment.content" class="commentSection_content">
+                {{ comment.content }}
+              </span>
+            </div>
+            <div
+              class="commentSection_headReaction"
+              v-if="comment && (comment.updatedAt || comment.likeRef)"
+            >
+              <font-awesome-icon :icon="['far', 'heart']" />
+              <span class="">{{
+                (comment && comment.likeRef && comment.likeRef.count) || 0
+              }}</span>
+              <span v-if="comment && comment.updatedAt" class="commentSection_content">
+                {{ $moment(comment.updatedAt).format("MMM d") }}
+              </span>
+            </div>
+            <ViewReply
+              v-if="comment && comment.replyRef && comment.replyRef.count"
+              :replies="comment.replyRef"
+            />
+          </div>
+        </div>
+        <div class="commentSection_loadMore" v-if="!stopFetching">
+          <font-awesome-icon @click="loadMore" :icon="['fas', 'plus-circle']" />
+        </div>
+        <div
+          v-if="fetchingComment"
+          class="skeleton-box commentSection_contentSkeletonMore"
+        ></div>
+      </template>
+    </div>
+    <template v-if="(fetchingPost || fetchingComment) && currentPage === 1">
+      <div class="commentSection commentSectionLoading" id="commentSectionLoading">
+        <div class="commentSection_head" v-for="(_, index) in dummyComments" :key="index">
+          <div class="skeleton-box commentSection_headAvatarSkeleton"></div>
+          <div class="commentSection_headComment commentSection_headCommentLoading">
+            <div class="commentSection_headContent">
+              <span class="skeleton-box commentSection_headUserNameSkeleton"></span>
               <span class="skeleton-box commentSection_contentSkeleton"></span>
             </div>
             <div class="commentSection_headReaction">
@@ -105,18 +85,30 @@ export default {
       currentPage: 1,
       stopFetching: false,
       dummyComments: new Array(5),
+      offsetTop: null,
     };
   },
   methods: {
+    calculateCSS() {
+      if (this.commentSectionOffsetTop && document.querySelector(".commentSection")) {
+        document.querySelector(
+          ".commentSection"
+        ).style.top = `${this.commentSectionOffsetTop}px`;
+        document.querySelector(
+          ".commentSection"
+        ).style.maxHeight = `calc(100% - ${this.commentSectionOffsetTop}px)`;
+      }
+    },
     async fetchComments(commentRefId, page) {
       try {
         this.fetchingComment = true;
-        console.log(this.currentPage);
         let res = await this.$axios.post(
-          `/api/comment/${commentRefId}?page=${1}&number=${DEFAULT_ITEM_PER_PAGE}`
+          `/api/comment/${
+            commentRefId ? commentRefId : get(this.post, "commentRef.id", null)
+          }?page=${this.currentPage + 1}&number=${DEFAULT_ITEM_PER_PAGE}`
         );
-        this.comments = res.data.comments;
-        console.log(res.data);
+        this.comments = [...this.comments, ...res.data.comments];
+        this.calculateCSS();
         if (this.currentPage === 1) {
           this.count = res.data.count;
         }
@@ -133,23 +125,15 @@ export default {
     },
     loadMore() {
       if (!this.stopFetching) {
-        this.fetchComments(this.post.commentRef.id, this.currentPage + 1);
+        this.fetchComments();
       }
     },
   },
   mounted() {
+    this.calculateCSS();
     if (get(this.post, "commentRef.id", null)) {
       this.fetchComments(this.post.commentRef.id, null);
     }
-    console.log("aaaaaaaaaaaaaa");
-    // if (
-    //   document.querySelector("#commentSectionLoading") &&
-    //   this.commentSectionOffsetTop
-    // ) {
-    //   document.querySelector(
-    //     "#commentSectionLoading"
-    //   ).style.top = `${this.commentSection}px`;
-    // }
   },
   created() {},
   watch: {
@@ -173,10 +157,9 @@ export default {
   overflow-y: scroll;
   width: 100%;
   position: absolute;
-  max-height: calc(100% - 200px);
-  top: 200px;
   @include scrollBar;
   &Loading {
+    max-height: calc(100% - 200px);
     top: $loadingSkeletonPostDetailHeight;
   }
   &_head {
@@ -231,6 +214,10 @@ export default {
     &Skeleton {
       height: $loadingSkeletonCommentContentItemHeight;
       width: $loadingSkeletonCommentContentItemWidth;
+      &More {
+        width: 100%;
+        margin-top: 10px;
+      }
     }
   }
   &_loadMore {

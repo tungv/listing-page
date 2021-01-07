@@ -15,14 +15,14 @@
 
 <script>
 import VueMasonryWall from "vue-masonry-wall";
+import { uniqBy } from "lodash";
 
 const DEFAULT_ITEM_PER_PAGE = 10;
 const MANSONARY_OPTION = { width: 300, padding: 12 };
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -37,40 +37,58 @@ export default {
     return {
       popularPosts: [],
       options: MANSONARY_OPTION,
-      currentPage: 1,
+      currentPage: null,
       stopFetching: false,
       MANSONARY_OPTION,
+      startFetching: true,
     };
   },
   created() {
+    console.log(this.currentPage);
     this.fetchPopularPosts();
   },
   methods: {
     async fetchPopularPosts(page) {
-      let res = await this.$axios.post(
-        `/api/post/popular?page=${
-          page ? page : this.currentPage
-        }&number=${DEFAULT_ITEM_PER_PAGE}`
-      );
-      if (this.currentPage === 1) {
-        this.popularPosts = res.data;
-      } else {
-        if (res.data && res.data.length) {
-          this.popularPosts = [...this.popularPosts, ...res.data];
+      try {
+        let res = await this.$axios.post(
+          `/api/post/popular?page=${this.currentPage + 1}&number=${DEFAULT_ITEM_PER_PAGE}`
+        );
+        if (this.currentPage === 1) {
+          this.popularPosts = res.data;
+        } else {
+          if (res.data && res.data.length) {
+            this.popularPosts = uniqBy([...this.popularPosts, ...res.data], "id");
+          }
         }
-      }
-      if (!res.data.length) {
-        this.stopFetching = true;
+        this.currentPage += 1;
+        if (!res.data.length) {
+          this.stopFetching = true;
+        }
+      } catch (error) {
+      } finally {
       }
     },
-    append() {
-      if (!this.stopFetching) {
+    async append() {
+      if (!this.stopFetching && this.startFetching) {
         try {
-          this.fetchPopularPosts(this.currentPage + 1);
+          console.log(this.currentPage);
+          await this.fetchPopularPosts();
         } catch (error) {
         } finally {
         }
       }
+    },
+    watch: {
+      currentPage: function (newVal, oldVal) {
+        if (newVal === oldVal) {
+          this.startFetching = false;
+        } else {
+          this.startFetching = true;
+        }
+      },
+    },
+    beforeDestroy() {
+      this.currentPage = 0;
     },
   },
 };

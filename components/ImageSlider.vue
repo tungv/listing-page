@@ -9,16 +9,16 @@
           post && post.images.length > 1 && 'imageSliderSlideMultiple',
         ]"
       >
-        <div v-for="(item, id) in post.images" :key="id" class="imageSliderSlideItem">
+        <div
+          v-for="(item, id) in post.images"
+          :key="id"
+          class="imageSliderSlideItem"
+        >
           <img :src="item" alt="" class="imageSliderSlideItemImg" />
         </div>
       </VueSlickCarousel>
     </template>
-    <div
-      v-if="fetchingPost"
-      class="skeleton-box imageSlider_noImage"
-      style="width: 100%; height: 100%"
-    ></div>
+    <div v-if="fetchingPost" class="skeleton-box imageSlider_noImage"></div>
     <div
       class="imageSlider_noImage"
       v-if="!fetchingPost && (!post || !post.images || !post.images.length)"
@@ -43,8 +43,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .imageSlider {
-  width: 70vw;
-  max-width: 70vw;
+  width: $imageCarouselWidth;
+  max-width: $imageCarouselWidth;
   background-color: white;
   &Slide {
     height: 100%;
@@ -73,7 +73,7 @@ export default {
     }
   }
   &_noImage {
-    width: 100%;
+    width: $imageCarouselWidth;
     height: 100%;
     background-color: $grey;
     display: flex;
@@ -84,11 +84,14 @@ export default {
 }
 
 .slick-slider {
+  width: $imageCarouselWidth !important;
+  max-width: $imageCarouselWidth !important;
   ::v-deep .slick-arrow:before {
     opacity: 1;
   }
   ::v-deep .slick-prev {
     left: 0;
+    opacity: 1;
   }
   ::v-deep .slick-next {
     right: 0;
@@ -101,6 +104,15 @@ export default {
   }
   .slick-track {
     height: 100%;
+  }
+  .slick-slide,
+  .slick-active,
+  .slick-current {
+    width: $imageCarouselWidth !important;
+    max-width: $imageCarouselWidth !important;
+  }
+  .slick-dots {
+    bottom: 0;
   }
 }
 </style>

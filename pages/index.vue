@@ -108,14 +108,14 @@ export default {
   display: flex;
   flex-direction: column;
 }
-@media print, screen and (min-width: $breakpoint-tablet) {
+@media screen and (min-width: 768px) {
   .container_postDetail {
     flex-direction: row;
   }
 }
-@media print, screen and (max-width: $breakpoint-tablet) {
+@media screen and (max-width: 768px) {
   .container_postDetail {
-    flex-direction: column;
+    flex-direction: column !important;
   }
 }
 </style>

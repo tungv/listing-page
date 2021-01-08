@@ -6,14 +6,15 @@ export default {
   target: 'static',
   generate: {
     routes() {
-      return axios.get('https://urich-server.herokuapp.com/api/web/popular').then((res) => {
-        return res.data.map((post) => {
-          return {
-            route: '/' + post.id,
-            payload: post
-          }
-        })
-      })
+      // return axios.get('https://urich-server.herokuapp.com/api/post/popular').then((res) => {
+      //   return res.data.map((post) => {
+      //     return {
+      //       route: '/' + post.id,
+      //       payload: post
+      //     }
+      //   })
+      // })
+      return ['5f7fec098623d3002464e979']
     }
   },
 

@@ -2,11 +2,7 @@
   <div>
     <div class="commentSection" v-if="!fetchingPost">
       <template v-if="comments && comments.length">
-        <div
-          class="commentSection_head"
-          v-for="comment in comments"
-          :key="comment.id"
-        >
+        <div class="commentSection_head" v-for="comment in comments" :key="comment.id">
           <avatar
             v-if="post"
             :src="comment.user.avatar"
@@ -17,10 +13,7 @@
               <span class="commentSection_headUserName">{{
                 comment.user.displayName
               }}</span>
-              <span
-                v-if="comment && comment.content"
-                class="commentSection_content"
-              >
+              <span v-if="comment && comment.content" class="commentSection_content">
                 {{ comment.content }}
               </span>
             </div>
@@ -32,10 +25,7 @@
               <span class="">{{
                 (comment && comment.likeRef && comment.likeRef.count) || 0
               }}</span>
-              <span
-                v-if="comment && comment.updatedAt"
-                class="commentSection_content"
-              >
+              <span v-if="comment && comment.updatedAt" class="commentSection_content">
                 {{ $moment(comment.updatedAt).format("MMM d") }}
               </span>
             </div>
@@ -45,36 +35,22 @@
             />
           </div>
         </div>
-        <div
-          class="commentSection_loadMore"
-          v-if="!stopFetching && !fetchingComment"
-        >
+        <div class="commentSection_loadMore" v-if="!stopFetching && !fetchingComment">
           <font-awesome-icon @click="loadMore" :icon="['fas', 'plus-circle']" />
         </div>
         <div
-          v-if="fetchingComment"
+          v-if="fetchingComment && currentPage !== 0"
           class="skeleton-box commentSection_contentSkeletonMore"
         ></div>
       </template>
     </div>
     <template v-if="(fetchingPost || fetchingComment) && currentPage === 0">
-      <div
-        class="commentSection commentSectionLoading"
-        id="commentSectionLoading"
-      >
-        <div
-          class="commentSection_head"
-          v-for="(_, index) in dummyComments"
-          :key="index"
-        >
+      <div class="commentSection commentSectionLoading" id="commentSectionLoading">
+        <div class="commentSection_head" v-for="(_, index) in dummyComments" :key="index">
           <div class="skeleton-box commentSection_headAvatarSkeleton"></div>
-          <div
-            class="commentSection_headComment commentSection_headCommentLoading"
-          >
+          <div class="commentSection_headComment commentSection_headCommentLoading">
             <div class="commentSection_headContent">
-              <span
-                class="skeleton-box commentSection_headUserNameSkeleton"
-              ></span>
+              <span class="skeleton-box commentSection_headUserNameSkeleton"></span>
               <span class="skeleton-box commentSection_contentSkeleton"></span>
             </div>
             <div class="commentSection_headReaction">
@@ -114,10 +90,7 @@ export default {
   },
   methods: {
     calculateCSS() {
-      if (
-        this.commentSectionOffsetTop &&
-        document.querySelector(".commentSection")
-      ) {
+      if (this.commentSectionOffsetTop && document.querySelector(".commentSection")) {
         document.querySelector(
           ".commentSection"
         ).style.top = `${this.commentSectionOffsetTop}px`;

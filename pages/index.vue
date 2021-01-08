@@ -108,14 +108,15 @@ export default {
   display: flex;
   flex-direction: column;
 }
-@media screen and (min-width: 768px) {
-  .container_postDetail {
-    flex-direction: row;
+.container_postDetail {
+  // flex-direction: column;
+  .commentSection {
+    display: none;
   }
-}
-@media screen and (max-width: 768px) {
-  .container_postDetail {
-    flex-direction: column !important;
+  .postDetail {
+  }
+  @media screen and (min-width: $breakpoint-tablet) {
+    flex-direction: row;
   }
 }
 </style>

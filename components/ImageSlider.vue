@@ -9,11 +9,7 @@
           post && post.images.length > 1 && 'imageSliderSlideMultiple',
         ]"
       >
-        <div
-          v-for="(item, id) in post.images"
-          :key="id"
-          class="imageSliderSlideItem"
-        >
+        <div v-for="(item, id) in post.images" :key="id" class="imageSliderSlideItem">
           <img :src="item" alt="" class="imageSliderSlideItemImg" />
         </div>
       </VueSlickCarousel>
@@ -43,9 +39,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .imageSlider {
-  width: $imageCarouselWidth;
-  max-width: $imageCarouselWidth;
+  width: 100%;
+  max-width: 100%;
+  @media screen and (min-width: $breakpoint-tablet) {
+    width: $imageCarouselWidth;
+    max-width: $imageCarouselWidth;
+  }
   background-color: white;
+  padding-top: $containerPadding20;
   &Slide {
     height: 100%;
     width: 100%;
@@ -84,8 +85,12 @@ export default {
 }
 
 .slick-slider {
-  width: $imageCarouselWidth !important;
-  max-width: $imageCarouselWidth !important;
+  width: 100%;
+  max-width: 100%;
+  @media screen and (min-width: $breakpoint-tablet) {
+    width: $imageCarouselWidth;
+    max-width: $imageCarouselWidth;
+  }
   ::v-deep .slick-arrow:before {
     opacity: 1;
   }
@@ -101,6 +106,7 @@ export default {
   }
   .slick-list {
     height: 100% !important;
+    width: 100% !important;
   }
   .slick-track {
     height: 100%;
@@ -108,8 +114,12 @@ export default {
   .slick-slide,
   .slick-active,
   .slick-current {
-    width: $imageCarouselWidth !important;
-    max-width: $imageCarouselWidth !important;
+    width: 100%;
+    max-width: 100%;
+    @media screen and (min-width: $breakpoint-tablet) {
+      width: $imageCarouselWidth;
+      max-width: $imageCarouselWidth;
+    }
   }
   .slick-dots {
     bottom: 0;

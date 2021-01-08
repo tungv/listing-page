@@ -136,6 +136,10 @@ export default {
   background-color: white;
   position: relative;
   min-height: $postDetailMinHeight;
+  margin-top: 20px;
+  @media screen and (min-width: $breakpoint-tablet) {
+    margin-top: $containerPadding20;
+  }
   &_wrapperHead {
     padding: 20px;
     position: absolute;

@@ -107,9 +107,14 @@ export default {
   .slick-list {
     height: 100% !important;
     width: 100% !important;
+    display: flex;
+    align-items: center;
   }
   .slick-track {
-    height: 100%;
+    height: 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
   }
   .slick-slide,
   .slick-active,
@@ -122,7 +127,7 @@ export default {
     }
   }
   .slick-dots {
-    bottom: 0;
+    bottom: 2% !important;
   }
 }
 </style>

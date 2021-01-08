@@ -22,7 +22,8 @@ const MANSONARY_OPTION = { width: 300, padding: 12 };
 function content() {
   const length = Math.random() * 300 + 30;
   let result = "";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -44,20 +45,24 @@ export default {
     };
   },
   created() {
-    console.log(this.currentPage);
     this.fetchPopularPosts();
   },
   methods: {
     async fetchPopularPosts(page) {
       try {
         let res = await this.$axios.post(
-          `/api/post/popular?page=${this.currentPage + 1}&number=${DEFAULT_ITEM_PER_PAGE}`
+          `/api/post/popular?page=${
+            this.currentPage + 1
+          }&number=${DEFAULT_ITEM_PER_PAGE}`
         );
         if (this.currentPage === 1) {
           this.popularPosts = res.data;
         } else {
-          if (res.data && res.data.length) {
-            this.popularPosts = uniqBy([...this.popularPosts, ...res.data], "id");
+          if (res && res.data && res.data.length) {
+            this.popularPosts = uniqBy(
+              [...this.popularPosts, ...res.data],
+              "id"
+            );
           }
         }
         this.currentPage += 1;

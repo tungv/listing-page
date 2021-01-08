@@ -1,8 +1,21 @@
 const webpack = require('webpack');
+import axios from 'axios'
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
+  generate: {
+    routes() {
+      return axios.get('https://urich-server.herokuapp.com/api/web/popular').then((res) => {
+        return res.data.map((post) => {
+          return {
+            route: '/' + post.id,
+            payload: post
+          }
+        })
+      })
+    }
+  },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   // head: {

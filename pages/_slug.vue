@@ -1,12 +1,13 @@
 <template>
   <div class="container">
-    <div class="container_postDetail">
+    {{ slug }}
+    <!-- <div class="container_postDetail">
       <ImageSlider :post="post" :fetchingPost="fetchingPost" />
       <PostDetail :post="post" :fetchingPost="fetchingPost" />
     </div>
     <div class="container_recommendations">
       <Recommendation :post="post" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -55,35 +56,43 @@ export default {
     },
     head() {
       return {
-        title: get(this.post, "content", "page title"),
-        script: [
-          {
-            hid: "facebook",
-            src:
-              "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v9.0&appId=1177682459073267&autoLogAppEvents=1",
-            defer: true,
-            async: true,
-            nonce: "36uC68Zf",
-          },
-        ],
+        // title: get(this.post, "content", "page title"),
+        // script: [
+        //   {
+        //     hid: "facebook",
+        //     src:
+        //       "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v9.0&appId=1177682459073267&autoLogAppEvents=1",
+        //     defer: true,
+        //     async: true,
+        //     nonce: "36uC68Zf",
+        //   },
+        // ],
+        // meta: [
+        //   { charset: "utf-8" },
+        //   { name: "viewport", content: "width=device-width, initial-scale=1" },
+        //   {
+        //     hid: "description",
+        //     name: "description",
+        //     content: get(this.post, "content", "page content"),
+        //   },
+        //   {
+        //     hid: "url",
+        //     property: "url",
+        //     content:
+        //       "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
+        //   },
+        //   {
+        //     hid: "image",
+        //     name: "image",
+        //     content: "https://unsplash.com/photos/RaRARO4gQcU",
+        //   },
+        // ],
+        title: "ooooooooooooooooo",
         meta: [
-          { charset: "utf-8" },
-          { name: "viewport", content: "width=device-width, initial-scale=1" },
           {
-            hid: "description",
-            name: "description",
-            content: get(this.post, "content", "page content"),
-          },
-          {
-            hid: "url",
-            property: "url",
-            content:
-              "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
-          },
-          {
-            hid: "image",
-            name: "image",
-            content: "https://unsplash.com/photos/RaRARO4gQcU",
+            hid: "og-title",
+            property: "og:title",
+            content: "aaaaaaaaaaaaaaaaaa",
           },
         ],
       };

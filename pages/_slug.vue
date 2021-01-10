@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <div id="fb-root"></div>
     <div class="container_postDetail">
       <ImageSlider :post="post" :fetchingPost="fetchingPost" />
       <PostDetail :post="post" :fetchingPost="fetchingPost" />
@@ -12,21 +11,32 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  async asyncData({ params }) {
+  async asyncData({ params, error, payload }) {
     const slug = params.slug; // When calling /abc the slug will be "abc"
-    return { slug };
+    return { post: payload, slug };
+    // if (payload) {
+    //   return { post: payload, slug };
+    // } else {
+    //   const res = await axios.post(
+    //     `https://urich-server.herokuapp.com/api/web/post/${slug}`
+    //   );
+    //   const post = res.data;
+    //   return { post, slug };
+    // }
   },
   data: function () {
     return {
-      post: null,
       id: null,
       fetchingPost: false,
     };
   },
   created() {
-    if (this.slug) this.id = this.slug;
-    this.fetchPost(this.slug);
+    if (this.slug) {
+      // this.fetchPost(this.slug);
+    }
   },
   mounted() {},
   methods: {

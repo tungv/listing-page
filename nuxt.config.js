@@ -1,20 +1,30 @@
 const webpack = require('webpack');
 import axios from 'axios'
+import { DEFAULT_ITEM_PER_PAGE } from './constants';
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
   generate: {
-    routes() {
-      // return axios.get('https://urich-server.herokuapp.com/api/post/popular').then((res) => {
-      //   return res.data.map((post) => {
-      //     return {
-      //       route: '/' + post.id,
-      //       payload: post
-      //     }
-      //   })
-      // })
-      return ['5f7fec098623d3002464e979']
+    async routes() {
+      function postRoutes() {
+        return axios
+          .post('https://urich-server.herokuapp.com/api/web/post/popular')
+          .then((r) => r.data.map((post) => {
+            return {
+              route: `${post.id}`,
+              payload: post
+            }
+          }))
+      }
+      const response = await axios
+        .all([postRoutes()])
+        .then(function (results) {
+          const merged = [].concat(...results)
+          return merged
+        })
+      console.log('responseresponse: ', response)
+      return response
     }
   },
 

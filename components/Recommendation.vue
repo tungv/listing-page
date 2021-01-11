@@ -1,15 +1,18 @@
 <template>
   <div v-if="popularPosts && popularPosts.length" class="recommendation">
-    <vue-masonry-wall
-      :items="popularPosts"
-      :options="MANSONARY_OPTION"
-      :ssr="{ columns: 2 }"
-      @append="append"
-    >
-      <template v-slot:default="{ item }">
-        <GridItem :item="item" />
-      </template>
-    </vue-masonry-wall>
+    <h1>Popular</h1>
+    <div class="recommendation">
+      <vue-masonry-wall
+        :items="popularPosts"
+        :options="MANSONARY_OPTION"
+        :ssr="{ columns: 2 }"
+        @append="append"
+      >
+        <template v-slot:default="{ item }">
+          <GridItem :item="item" />
+        </template>
+      </vue-masonry-wall>
+    </div>
   </div>
 </template>
 
@@ -84,7 +87,7 @@ export default {
       }
     },
     watch: {
-      currentPage: function (newVal, oldVal) {
+      currentPage(newVal, oldVal) {
         if (newVal === oldVal) {
           this.startFetching = false;
         } else {

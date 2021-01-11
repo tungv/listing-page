@@ -16,9 +16,6 @@
 export default {
   async asyncData({ params, error, payload }) {
     const slug = params.slug; // When calling /abc the slug will be "abc"
-    console.log("zzzzzzzzzzzz");
-    console.log(payload);
-    return { payload, slug };
     // if (payload) {
     //   return { post: payload, slug };
     // } else {

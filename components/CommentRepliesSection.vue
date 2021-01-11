@@ -1,6 +1,14 @@
 <template>
-  <div class="commentRepliesSection" v-if="comments" ref="commentRepliesSection">
-    <div class="commentRepliesSection_head" v-for="comment in comments" :key="comment.id">
+  <div
+    class="commentRepliesSection"
+    v-if="comments"
+    ref="commentRepliesSection"
+  >
+    <div
+      class="commentRepliesSection_head"
+      v-for="comment in comments"
+      :key="comment.id"
+    >
       <div class="commentRepliesSection_headAvatar">
         <img
           alt="user-avatar"
@@ -27,7 +35,10 @@
           <span class="">{{
             (comment && comment.likeRef && comment.likeRef.count) || 0
           }}</span>
-          <span v-if="comment && comment.updatedAt" class="commentRepliesSection_content">
+          <span
+            v-if="comment && comment.updatedAt"
+            class="commentRepliesSection_content"
+          >
             {{ $moment(comment.updatedAt).format("MMM d") }}
           </span>
         </div>

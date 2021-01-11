@@ -81,6 +81,9 @@ export default {
   min-height: 100vh;
   padding-left: 5%;
   padding-right: 5%;
+  &_recommendations {
+    margin-top: 30px;
+  }
 }
 
 .title {
@@ -109,12 +112,6 @@ export default {
   flex-direction: column;
 }
 .container_postDetail {
-  // flex-direction: column;
-  .commentSection {
-    display: none;
-  }
-  .postDetail {
-  }
   @media screen and (min-width: $breakpoint-tablet) {
     flex-direction: row;
   }

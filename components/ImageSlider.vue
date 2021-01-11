@@ -9,7 +9,11 @@
           post && post.images.length > 1 && 'imageSliderSlideMultiple',
         ]"
       >
-        <div v-for="(item, id) in post.images" :key="id" class="imageSliderSlideItem">
+        <div
+          v-for="(item, id) in post.images"
+          :key="id"
+          class="imageSliderSlideItem"
+        >
           <img :src="item" alt="" class="imageSliderSlideItemImg" />
         </div>
       </VueSlickCarousel>
@@ -34,10 +38,7 @@ export default {
   name: "ImageSlider",
   components: { VueSlickCarousel },
   props: ["post", "fetchingPost"],
-  mounted() {
-    console.log("in image slider");
-    console.log(this.post);
-  },
+  mounted() {},
 };
 </script>
 <style lang="scss" scoped>
@@ -58,7 +59,7 @@ export default {
     justify-content: center;
     &Multiple {
       .slick-dots {
-        height: calc(500px - 25px);
+        height: calc(#{$postDetailMinHeight} - #{$sliderDotsHeight});
         bottom: 0;
       }
     }

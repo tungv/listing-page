@@ -1,8 +1,16 @@
 <template>
   <div class="postDetail">
-    <div class="postDetail_wrapperHead" v-if="!fetchingPost" ref="postDetail_wrapperHead">
+    <div
+      class="postDetail_wrapperHead"
+      v-if="!fetchingPost"
+      ref="postDetail_wrapperHead"
+    >
       <div class="postDetail_head">
-        <avatar v-if="post" :src="avatar" avaClass="postDetail_headAvatar"></avatar>
+        <avatar
+          v-if="post"
+          :src="avatar"
+          avaClass="postDetail_headAvatar"
+        ></avatar>
         <div class="postDetail_headUser" v-if="displayName && updatedAt">
           <div>{{ displayName }}</div>
           <div>{{ $moment(updatedAt).format("MMM d") }}</div>
@@ -11,11 +19,17 @@
       <div v-if="post && post.content" class="postDetail_content">
         {{ post.content }}
       </div>
-      <div v-if="post && post.place && post.place.name" class="postDetail_place">
+      <div
+        v-if="post && post.place && post.place.name"
+        class="postDetail_place"
+      >
         <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
+      <div
+        v-if="post && post.topics && post.topics.length"
+        class="postDetail_category"
+      >
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -33,7 +47,11 @@
         </div>
       </div>
     </div>
-    <div class="postDetail_wrapperHead" v-if="fetchingPost" ref="postDetail_wrapperHead">
+    <div
+      class="postDetail_wrapperHead"
+      v-if="fetchingPost"
+      ref="postDetail_wrapperHead"
+    >
       <div class="postDetail_head">
         <div class="skeleton-box postDetail_headAvatarSkeleton"></div>
         <div class="postDetail_headUserLoading">
@@ -45,15 +63,9 @@
       <div class="skeleton-box postDetail_placeLoading"></div>
       <div class="postDetail_categoryLoading">
         <template v-for="(_, index) in dummyCategories">
-          <span :key="index" class="skeleton-box postDetail_categoryTagLoading"> </span>
+          <span :key="index" class="skeleton-box postDetail_categoryTagLoading">
+          </span>
         </template>
-      </div>
-      <div class="postDetail_reaction">
-        <div>
-          <span class="skeleton-box postDetail_reactionLikeLoading"></span>
-          <span class="skeleton-box postDetail_reactionCommentLoading"></span>
-        </div>
-        <span class="skeleton-box postDetail_reactionCommentLoading"></span>
       </div>
     </div>
     <CommentSection
@@ -71,22 +83,13 @@ export default {
   data: function () {
     return {
       commentSectionOffsetTop: null,
-      dummyCategories: new Array(10),
+      dummyCategories: new Array(3),
     };
   },
   mounted() {
     if (process.browser) {
       this.location = window.location;
     }
-    // (function (d, s, id) {
-    //   var js,
-    //     fjs = d.getElementsByTagName(s)[0];
-    //   if (d.getElementById(id)) return;
-    //   js = d.createElement(s);
-    //   js.id = id;
-    //   js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-    //   fjs.parentNode.insertBefore(js, fjs);
-    // })(document, "script", "facebook-jssdk");
     this.calculateCSS();
   },
   computed: {
@@ -113,11 +116,6 @@ export default {
   methods: {
     async calculateCSS() {
       if (typeof document !== "undefined") {
-        // if (document.querySelector(".postDetail_wrapperHead")) {
-        //   this.commentSectionOffsetTop = document.querySelector(
-        //     ".postDetail_wrapperHead"
-        //   ).offsetHeight;
-        // }
         if (document.querySelector(".postDetail_wrapperHead")) {
           this.commentSectionOffsetTop = await document.querySelector(
             ".postDetail_wrapperHead"
@@ -158,6 +156,7 @@ export default {
         width: $userAvatarSize;
         height: $userAvatarSize;
         border-radius: 50%;
+        flex: none;
       }
     }
     &User {

@@ -12,7 +12,7 @@ export default {
           .post('https://urich-server.herokuapp.com/api/web/post/popular')
           .then((r) => r.data.map((post) => {
             return {
-              route: `${post.id}`,
+              route: `post/${post.id}`,
               payload: post
             }
           }))
@@ -23,7 +23,6 @@ export default {
           const merged = [].concat(...results)
           return merged
         })
-      console.log('responseresponse: ', response)
       return response
     }
   },
@@ -45,7 +44,7 @@ export default {
   //   hid: "og:description",
   //   property: "og:description",
   //   content:
-  //     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  //     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   // }
   // ],
   // link: [

@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     {{ slug }}
-    <!-- <div class="container_postDetail">
+    <div class="container_postDetail">
       <ImageSlider :post="post" :fetchingPost="fetchingPost" />
       <PostDetail :post="post" :fetchingPost="fetchingPost" />
     </div>
-    <div class="container_recommendations">
+    <!-- <div class="container_recommendations">
       <Recommendation :post="post" />
     </div> -->
   </div>
@@ -17,12 +17,14 @@ import axios from "axios";
 export default {
   async asyncData({ params, error, payload }) {
     const slug = params.slug; // When calling /abc the slug will be "abc"
-    return { post: payload, slug };
+    console.log("zzzzzzzzzzzz");
+    console.log(payload);
+    return { payload, slug };
     // if (payload) {
     //   return { post: payload, slug };
     // } else {
-    //   const res = await axios.post(
-    //     `https://urich-server.herokuapp.com/api/web/post/${slug}`
+    //   const res = await axios.get(
+    //     `https://urich-server.herokuapp.com/api/web/api/post/${slug}`
     //   );
     //   const post = res.data;
     //   return { post, slug };
@@ -30,23 +32,23 @@ export default {
   },
   data: function () {
     return {
-      id: null,
       fetchingPost: false,
+      post: this.payload,
     };
   },
   created() {
-    if (this.slug) {
-      // this.fetchPost(this.slug);
+    console.log(this.data);
+    console.log("aaaaaaaqa ", this.post);
+    if (this.slug && !this.payload) {
+      this.fetchPost(this.slug);
     }
   },
   mounted() {},
   methods: {
-    async fetchPost(id) {
+    async fetchPost() {
       try {
         this.fetchingPost = true;
-        let res = id
-          ? await this.$axios.get(`/api/post/${id}`)
-          : await this.$axios.get(`/api/post/${this.id}`);
+        let res = await this.$axios.get(`/api/post/${this.slug}`);
         this.post = res.data;
       } catch (error) {
         console.log(error);
@@ -92,7 +94,7 @@ export default {
           {
             hid: "og-title",
             property: "og:title",
-            content: "aaaaaaaaaaaaaaaaaa",
+            content: "yeyeyeyeyeyeyeye",
           },
         ],
       };
@@ -100,7 +102,7 @@ export default {
   },
   async fetch() {
     // Called also on query changes
-    this.fetchPost(this.slug);
+    this.fetchPost();
   },
   watch: {
     "$route.query": "$fetch",

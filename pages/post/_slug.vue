@@ -1,9 +1,10 @@
 <template>
   <div class="container">
+    <div id="fb-root"></div>
     {{ slug }}
     <div class="container_postDetail">
-      <ImageSlider :post="post" :fetchingPost="fetchingPost" />
-      <PostDetail :post="post" :fetchingPost="fetchingPost" />
+      <ImageSlider :post="payload" :fetchingPost="fetchingPost" />
+      <PostDetail :post="payload" :fetchingPost="fetchingPost" />
     </div>
     <!-- <div class="container_recommendations">
       <Recommendation :post="post" />
@@ -12,8 +13,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   async asyncData({ params, error, payload }) {
     const slug = params.slug; // When calling /abc the slug will be "abc"
@@ -33,14 +32,12 @@ export default {
   data: function () {
     return {
       fetchingPost: false,
-      post: this.payload,
+      post: null,
     };
   },
   created() {
-    console.log(this.data);
-    console.log("aaaaaaaqa ", this.post);
-    if (this.slug && !this.payload) {
-      this.fetchPost(this.slug);
+    if (this.slug && !this.post) {
+      this.fetchPost();
     }
   },
   mounted() {},
@@ -49,6 +46,8 @@ export default {
       try {
         this.fetchingPost = true;
         let res = await this.$axios.get(`/api/post/${this.slug}`);
+        console.log("heeeeeeeeeee");
+        console.log(res);
         this.post = res.data;
       } catch (error) {
         console.log(error);

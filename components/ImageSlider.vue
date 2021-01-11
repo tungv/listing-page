@@ -34,7 +34,10 @@ export default {
   name: "ImageSlider",
   components: { VueSlickCarousel },
   props: ["post", "fetchingPost"],
-  mounted() {},
+  mounted() {
+    console.log("in image slider");
+    console.log(this.post);
+  },
 };
 </script>
 <style lang="scss" scoped>

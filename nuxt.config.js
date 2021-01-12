@@ -28,29 +28,29 @@ export default {
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
-  // head: {
-  //   title: 'listing-page',
-  //   meta: [
-  // { charset: 'utf-8' },
-  // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-  // { hid: 'description', name: 'description', content: 'test listing' },
-  // {
-  //   hid: "og:url",
-  //   property: "og:url",
-  //   content:
-  //     "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
-  // },
-  // {
-  //   hid: "og:description",
-  //   property: "og:description",
-  //   content:
-  //     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  // }
-  // ],
-  // link: [
-  //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-  // ]
-  // },
+  head: {
+    title: 'listing-page',
+    meta: [
+  { charset: 'utf-8' },
+  { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  { hid: 'description', name: 'description', content: 'test listing' },
+  {
+    hid: "og:url",
+    property: "og:url",
+    content:
+      "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
+  },
+  {
+    hid: "og:description",
+    property: "og:description",
+    content:
+      "listing-page",
+  }
+  ],
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+  ]
+  },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
@@ -61,7 +61,6 @@ export default {
   plugins: [
     '~plugins/filters.js',
     '~/plugins/vue-observe-visibility.client.js',
-    '~/plugins/axios.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

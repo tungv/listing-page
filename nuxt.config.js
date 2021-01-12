@@ -33,7 +33,6 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'test listing' },
       {
         hid: "og:description",
         property: "og:description",
@@ -44,7 +43,7 @@ export default {
         hid: "og:image",
         property: "og:image",
         content:
-          "https://images.unsplash.com/photo-1610123172763-1f587473048f?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=646&q=80",
+          "/default-thumbnail-social-share.png",
       }
     ],
     link: [
@@ -95,6 +94,10 @@ export default {
     '@nuxt/content',
     'vue-social-sharing/nuxt',
     '@nuxtjs/moment',
+    [
+      '@nuxtjs/device',
+      { defaultUserAgent: 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Mobile Safari/537.36' }
+    ]
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)

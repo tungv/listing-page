@@ -1,8 +1,16 @@
 <template>
   <div class="postDetail">
-    <div class="postDetail_wrapperHead" v-if="!fetchingPost" ref="postDetail_wrapperHead">
+    <div
+      class="postDetail_wrapperHead"
+      v-if="!fetchingPost"
+      ref="postDetail_wrapperHead"
+    >
       <div class="postDetail_head">
-        <avatar v-if="post" :src="avatar" avaClass="postDetail_headAvatar"></avatar>
+        <avatar
+          v-if="post"
+          :src="avatar"
+          avaClass="postDetail_headAvatar"
+        ></avatar>
         <div class="postDetail_headUser" v-if="displayName && updatedAt">
           <div>{{ displayName }}</div>
           <div>{{ $moment(updatedAt).format("MMM d") }}</div>
@@ -11,11 +19,17 @@
       <div v-if="post && post.content" class="postDetail_content">
         {{ post.content }}
       </div>
-      <div v-if="post && post.place && post.place.name" class="postDetail_place">
+      <div
+        v-if="post && post.place && post.place.name"
+        class="postDetail_place"
+      >
         <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
+      <div
+        v-if="post && post.topics && post.topics.length"
+        class="postDetail_category"
+      >
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -42,7 +56,11 @@
         </ShareNetwork>
       </div>
     </div>
-    <div class="postDetail_wrapperHead" v-if="fetchingPost" ref="postDetail_wrapperHead">
+    <div
+      class="postDetail_wrapperHead"
+      v-if="fetchingPost"
+      ref="postDetail_wrapperHead"
+    >
       <div class="postDetail_head">
         <div class="skeleton-box postDetail_headAvatarSkeleton"></div>
         <div class="postDetail_headUserLoading">
@@ -54,7 +72,8 @@
       <div class="skeleton-box postDetail_placeLoading"></div>
       <div class="postDetail_categoryLoading">
         <template v-for="(_, index) in dummyCategories">
-          <span :key="index" class="skeleton-box postDetail_categoryTagLoading"> </span>
+          <span :key="index" class="skeleton-box postDetail_categoryTagLoading">
+          </span>
         </template>
       </div>
     </div>
@@ -121,17 +140,22 @@ export default {
 
 <style lang="scss">
 .postDetail {
-  width: 60%;
+  width: 100%;
   max-height: 100%;
   background-color: white;
   position: relative;
-  min-height: $postDetailMinHeight;
   margin-top: 20px;
+  min-height: $postDetailMinHeightMobile;
   @media screen and (min-width: $breakpoint-tablet) {
+    min-height: $postDetailMinHeight;
     margin-top: $containerPadding20;
+    width: 60%;
   }
   &_wrapperHead {
-    padding: 20px;
+    padding: 0;
+    @media screen and (min-width: $breakpoint-tablet) {
+      padding: 20px;
+    }
     position: absolute;
     top: 0;
     overflow-y: scroll;

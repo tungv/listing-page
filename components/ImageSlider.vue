@@ -68,9 +68,13 @@ export default {
     }
     &Item {
       height: 100%;
+      width: 100%;
       &Img {
         width: 100%;
         height: 100%;
+        img {
+          object-fit: cover;
+        }
       }
     }
     &Dots {
@@ -97,13 +101,20 @@ export default {
   }
   ::v-deep .slick-arrow:before {
     opacity: 1;
+    font-size: 40px !important;
+    top: 50%;
+  }
+  .slick-arrow::before {
+    font-size: 40px !important;
   }
   ::v-deep .slick-prev {
-    left: 0;
+    left: 20px;
     opacity: 1;
+    z-index: 100;
   }
   ::v-deep .slick-next {
-    right: 0;
+    right: 40px;
+    z-index: 100;
   }
   .slick-active button:before {
     color: white;

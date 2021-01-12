@@ -50,6 +50,10 @@ export default {
   created() {
     this.fetchPopularPosts();
   },
+  mounted() {
+    console.log("console.log(context.isMobile);");
+    console.log(this.$device);
+  },
   methods: {
     async fetchPopularPosts(page) {
       try {
@@ -86,15 +90,17 @@ export default {
         }
       }
     },
-    watch: {
-      currentPage(newVal, oldVal) {
-        if (newVal === oldVal) {
-          this.startFetching = false;
-        } else {
-          this.startFetching = true;
-        }
-      },
-    },
+    // watch: {
+    //   currentPage: {
+    //     handler: function (newVal, oldVal) {
+    //       if (newVal === oldVal) {
+    //         this.startFetching = false;
+    //       } else {
+    //         this.startFetching = true;
+    //       }
+    //     },
+    //   },
+    // },
     beforeDestroy() {
       this.currentPage = 0;
     },

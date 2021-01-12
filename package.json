@@ -19,6 +19,7 @@
     "@nuxt/content": "^1.11.1",
     "@nuxt/webpack": "^2.14.12",
     "@nuxtjs/axios": "^5.12.4",
+    "@nuxtjs/device": "^1.2.7",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/svg": "^0.1.12",

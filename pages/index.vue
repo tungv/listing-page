@@ -23,18 +23,16 @@ export default {
       fetchingPost: false,
     };
   },
-  created() {
-    if (this.$route.query.id) this.id = this.$route.query.id;
+  created() {},
+  mounted() {
+    console.log(this.$route.query.id)
     this.fetchPost(this.$route.query.id);
   },
-  mounted() {},
   methods: {
     async fetchPost(id) {
       try {
         this.fetchingPost = true;
-        let res = id
-          ? await this.$axios.get(`/api/post/${id}`)
-          : await this.$axios.get(`/api/post/${this.id}`);
+        let res = await this.$axios.get(`/api/post/${id}`);
         this.post = res.data;
       } catch (error) {
         console.log(error);

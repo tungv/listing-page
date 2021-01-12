@@ -83,7 +83,7 @@ export default {
         //     content: "https://unsplash.com/photos/RaRARO4gQcU",
         //   },
         // ],
-        title: "ooooooooooooooooo",
+        title: "list page",
         meta: [
           {
             hid: "og-title",

@@ -31,19 +31,25 @@ export default {
   head: {
     title: 'listing-page',
     meta: [
-  { charset: 'utf-8' },
-  { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-  { hid: 'description', name: 'description', content: 'test listing' },
-  {
-    hid: "og:description",
-    property: "og:description",
-    content:
-      "listing-page",
-  }
-  ],
-  link: [
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-  ]
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: 'test listing' },
+      {
+        hid: "og:description",
+        property: "og:description",
+        content:
+          "listing-page",
+      },
+      {
+        hid: "og:image",
+        property: "og:image",
+        content:
+          "https://images.unsplash.com/photo-1610123172763-1f587473048f?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=646&q=80",
+      }
+    ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)

@@ -43,7 +43,7 @@ export default {
         hid: "og:image",
         property: "og:image",
         content:
-          "/default-thumbnail-social-share.png",
+          "/images/default-thumbnail-social-share.png",
       }
     ],
     link: [

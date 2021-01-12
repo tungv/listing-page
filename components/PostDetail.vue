@@ -50,7 +50,6 @@
           :url="path"
           :title="post.content || ''"
           :description="post.content || ''"
-          :quote="post.content || ''"
         >
           <font-awesome-icon :icon="['fas', 'share']" />
         </ShareNetwork>

@@ -43,8 +43,6 @@ export default {
       try {
         this.fetchingPost = true;
         let res = await this.$axios.get(`/api/post/${this.slug}`);
-        console.log("heeeeeeeeeee");
-        console.log(res);
         this.post = res.data;
       } catch (error) {
         console.log(error);

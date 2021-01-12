@@ -1,12 +1,8 @@
 <template>
   <div>
-    <div class="commentSection" v-if="!fetchingPost && !fetchingComment">
+    <div class="commentSection" v-if="!fetchingPost">
       <template v-if="comments && comments.length">
-        <div
-          class="commentSection_head"
-          v-for="comment in comments"
-          :key="comment.id"
-        >
+        <div class="commentSection_head" v-for="comment in comments" :key="comment.id">
           <avatar
             v-if="post"
             :src="comment.user.avatar"
@@ -17,10 +13,7 @@
               <span class="commentSection_headUserName">{{
                 comment.user.displayName
               }}</span>
-              <span
-                v-if="comment && comment.content"
-                class="commentSection_content"
-              >
+              <span v-if="comment && comment.content" class="commentSection_content">
                 {{ comment.content }}
               </span>
             </div>
@@ -32,10 +25,7 @@
               <span class="">{{
                 (comment && comment.likeRef && comment.likeRef.count) || 0
               }}</span>
-              <span
-                v-if="comment && comment.updatedAt"
-                class="commentSection_content"
-              >
+              <span v-if="comment && comment.updatedAt" class="commentSection_content">
                 {{ $moment(comment.updatedAt).format("MMM d") }}
               </span>
             </div>
@@ -45,10 +35,7 @@
             />
           </div>
         </div>
-        <div
-          class="commentSection_loadMore"
-          v-if="!stopFetching && !fetchingComment"
-        >
+        <div class="commentSection_loadMore" v-if="!stopFetching && !fetchingComment">
           <font-awesome-icon @click="loadMore" :icon="['fas', 'plus-circle']" />
         </div>
         <div
@@ -58,26 +45,13 @@
       </template>
     </div>
     <template v-if="renderCommentSkeleton">
-      <div
-        class="commentSection commentSectionLoading"
-        id="commentSectionLoading"
-      >
-        <div
-          class="commentSection_head"
-          v-for="(_, index) in dummyComments"
-          :key="index"
-        >
+      <div class="commentSection commentSectionLoading" id="commentSectionLoading">
+        <div class="commentSection_head" v-for="(_, index) in dummyComments" :key="index">
           <div class="skeleton-box commentSection_headAvatarSkeleton"></div>
-          <div
-            class="commentSection_headComment commentSection_headCommentLoading"
-          >
+          <div class="commentSection_headComment commentSection_headCommentLoading">
             <div class="commentSection_headContent">
               <span class="skeleton-box commentSection_contentSkeleton"></span>
             </div>
-            <ViewReply
-              v-if="comment && comment.replyRef && comment.replyRef.count"
-              :replies="comment.replyRef"
-            />
           </div>
         </div>
       </div>
@@ -105,17 +79,12 @@ export default {
   },
   computed: {
     renderCommentSkeleton: function () {
-      return (
-        (this.fetchingPost || this.fetchingComment) && this.currentPage === 0
-      );
+      return (this.fetchingPost || this.fetchingComment) && this.currentPage === 0;
     },
   },
   methods: {
     calculateCSS() {
-      if (
-        this.commentSectionOffsetTop &&
-        document.querySelector(".commentSection")
-      ) {
+      if (this.commentSectionOffsetTop && document.querySelector(".commentSection")) {
         document.querySelector(
           ".commentSection"
         ).style.top = `${this.commentSectionOffsetTop}px`;
@@ -128,11 +97,14 @@ export default {
       try {
         this.fetchingComment = true;
         let res = await this.$axios.post(
-          `/api/comment/${get(this.post, "commentRef.id", null)}?page=${
-            this.currentPage + 1
-          }&number=${DEFAULT_ITEM_PER_PAGE}`
+          `/api/comment/${
+            get(this.post, "commentRef.id", null) || this.$route.query.id
+          }?page=${this.currentPage + 1}&number=${DEFAULT_ITEM_PER_PAGE}`
         );
-        this.comments = [...this.comments, ...res.data.comments];
+        if (res && res.data && res.data.comments) {
+          this.comments = [...this.comments, ...res.data.comments];
+        }
+        console.log(this.comments);
         this.calculateCSS();
         if (this.currentPage === 1) {
           this.count = res.data.count;
@@ -152,10 +124,8 @@ export default {
       }
     },
   },
-  created() {
-    if (this.$route.query.id) {
-      this.fetchComments();
-    }
+  mounted() {
+    this.fetchComments();
   },
   watch: {
     post(newVal, old) {
@@ -172,12 +142,6 @@ export default {
         this.stopFetching = true;
       }
     },
-    // fetchingPost: function (newVal) {
-    //   this.calculateCSS();
-    // },
-    // fetchingComment: function (newVal) {
-    //   this.calculateCSS();
-    // },
   },
 };
 </script>
@@ -193,6 +157,7 @@ export default {
   position: absolute;
   @include scrollBar;
   &Loading {
+    position: absolute;
     max-height: calc(100% - 200px);
     top: $loadingSkeletonPostDetailHeight;
   }
@@ -200,6 +165,7 @@ export default {
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
+    overflow-x: hidden;
     &Avatar {
       width: $userAvatarCommentSize;
       height: $userAvatarCommentSize;

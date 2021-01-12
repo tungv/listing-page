@@ -1,16 +1,8 @@
 <template>
   <div class="postDetail">
-    <div
-      class="postDetail_wrapperHead"
-      v-if="!fetchingPost"
-      ref="postDetail_wrapperHead"
-    >
+    <div class="postDetail_wrapperHead" v-if="!fetchingPost" ref="postDetail_wrapperHead">
       <div class="postDetail_head">
-        <avatar
-          v-if="post"
-          :src="avatar"
-          avaClass="postDetail_headAvatar"
-        ></avatar>
+        <avatar v-if="post" :src="avatar" avaClass="postDetail_headAvatar"></avatar>
         <div class="postDetail_headUser" v-if="displayName && updatedAt">
           <div>{{ displayName }}</div>
           <div>{{ $moment(updatedAt).format("MMM d") }}</div>
@@ -19,17 +11,11 @@
       <div v-if="post && post.content" class="postDetail_content">
         {{ post.content }}
       </div>
-      <div
-        v-if="post && post.place && post.place.name"
-        class="postDetail_place"
-      >
+      <div v-if="post && post.place && post.place.name" class="postDetail_place">
         <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
         <span class="postDetail_placeName">{{ post.place.name }}</span>
       </div>
-      <div
-        v-if="post && post.topics && post.topics.length"
-        class="postDetail_category"
-      >
+      <div v-if="post && post.topics && post.topics.length" class="postDetail_category">
         <template v-for="category in post.topics">
           <span :key="category.name" class="postDetail_categoryTag">
             {{ category.name }}
@@ -45,13 +31,18 @@
           </span>
           <font-awesome-icon :icon="['far', 'heart']" />
         </div>
+        <ShareNetwork
+          network="facebook"
+          :url="path"
+          :title="post.content || ''"
+          :description="post.content || ''"
+          :quote="post.content || ''"
+        >
+          <font-awesome-icon :icon="['fas', 'share']" />
+        </ShareNetwork>
       </div>
     </div>
-    <div
-      class="postDetail_wrapperHead"
-      v-if="fetchingPost"
-      ref="postDetail_wrapperHead"
-    >
+    <div class="postDetail_wrapperHead" v-if="fetchingPost" ref="postDetail_wrapperHead">
       <div class="postDetail_head">
         <div class="skeleton-box postDetail_headAvatarSkeleton"></div>
         <div class="postDetail_headUserLoading">
@@ -63,8 +54,7 @@
       <div class="skeleton-box postDetail_placeLoading"></div>
       <div class="postDetail_categoryLoading">
         <template v-for="(_, index) in dummyCategories">
-          <span :key="index" class="skeleton-box postDetail_categoryTagLoading">
-          </span>
+          <span :key="index" class="skeleton-box postDetail_categoryTagLoading"> </span>
         </template>
       </div>
     </div>
@@ -79,7 +69,7 @@
 import { get } from "lodash";
 
 export default {
-  props: ["post", "fetchingPost", "fetchingComment"],
+  props: ["post", "fetchingPost"],
   data: function () {
     return {
       commentSectionOffsetTop: null,
@@ -90,6 +80,9 @@ export default {
     if (process.browser) {
       this.location = window.location;
     }
+    this.calculateCSS();
+  },
+  updated() {
     this.calculateCSS();
   },
   computed: {
@@ -104,8 +97,7 @@ export default {
     },
     path: function () {
       if (process.browser) {
-        // this.path = window.location.href;
-        return "https://upbeat-panini-d9f351.netlify.app/?id=5fcb497326c01c0024124bba";
+        return window.location.href;
       }
       return "";
     },
@@ -114,10 +106,10 @@ export default {
     },
   },
   methods: {
-    async calculateCSS() {
+    calculateCSS() {
       if (typeof document !== "undefined") {
         if (document.querySelector(".postDetail_wrapperHead")) {
-          this.commentSectionOffsetTop = await document.querySelector(
+          this.commentSectionOffsetTop = document.querySelector(
             ".postDetail_wrapperHead"
           ).offsetHeight;
         }
@@ -168,6 +160,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         height: $userAvatarSize;
+        width: 100%;
         .postDetail_headUserSkeleton:first-child {
           margin-bottom: 4px;
         }
@@ -177,7 +170,7 @@ export default {
         background-color: $grey;
       }
       &Skeleton {
-        width: $loadingSkeletonUsernameWidth;
+        width: 100%;
         height: $loadingSkeletonUsernameHeight;
       }
     }

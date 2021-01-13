@@ -2,7 +2,7 @@
 
 ## Deploy demo
 
-- The web demo version is deployed at: https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da (the id is the post id you would like to view)
+- The web demo version is deployed at: https://loving-montalcini-b2e5b4.netlify.app/?id=5f7fe5a58623d3002464e976 (the id is the post id you would like to view)
 
 ## Build Setup
 

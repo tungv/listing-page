@@ -61,6 +61,7 @@
 </template>
 <script>
 import { get } from "lodash";
+import "vue-social-sharing/dist/vue-social-sharing.js";
 
 export default {
   props: ["post", "fetchingPost"],

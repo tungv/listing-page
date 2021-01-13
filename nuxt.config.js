@@ -34,6 +34,12 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
+        hid: "og:url",
+        property: "og:url",
+        content:
+          "https://elegant-ptolemy-3ceaf8.netlify.app/index.html",
+      },
+      {
         hid: "og:description",
         property: "og:description",
         content:

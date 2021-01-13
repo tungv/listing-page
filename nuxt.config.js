@@ -40,6 +40,18 @@ export default {
           "listing-page",
       },
       {
+        hid: "og:type",
+        property: "og:type",
+        content:
+          "website",
+      },
+      {
+        hid: "og:title",
+        property: "og:title",
+        content:
+          "local host title",
+      },
+      {
         hid: "og:image",
         property: "og:image",
         content:

@@ -16,26 +16,8 @@ const DEFAULT_SHARE_THUMBNAIL =
   "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
 
 export default {
-  async asyncData({ params, error, $axios, $payloadURL, route, ...rest }) {
-    if (process.static && process.client && $payloadURL)
-      return await $axios.$get($payloadURL(route));
-
-    // if (payload) return { post: payload };
-    // console.log("******");
-    // console.log(rest);
-    // console.log(params);
-    // console.log(params.slug);
-    // console.log(payload);
-    const slug = params.slug; // When calling /abc the slug will be "abc"
-    // if (payload) {
-    //   return { post: payload, slug };
-    // } else {
-    //   const res = await axios.get(
-    //     `https://urich-server.herokuapp.com/api/web/api/post/${slug}`
-    //   );
-    //   const post = res.data;
-    //   return { post, slug };
-    // }
+  async asyncData({ params, error, payload }) {
+    console.log(payload);
   },
   data: function () {
     return {

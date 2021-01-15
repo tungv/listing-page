@@ -11,9 +11,11 @@ export default {
         return axios
           .post('https://urich-server.herokuapp.com/api/web/post/popular')
           .then((r) => r.data.map((post) => {
+            console.log('console.log(post)')
+            console.log(post)
             return {
               route: `post/${post.id}`,
-              payload: post
+              payload: 'post'
             }
           }))
       }
@@ -76,7 +78,6 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~plugins/filters.js',
     '~/plugins/vue-observe-visibility.client.js',
   ],
 
@@ -115,7 +116,8 @@ export default {
     [
       '@nuxtjs/device',
       { defaultUserAgent: 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Mobile Safari/537.36' }
-    ]
+    ],
+    'nuxt-payload-extractor'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)

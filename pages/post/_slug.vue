@@ -1,20 +1,31 @@
 <template>
   <div class="container">
     <div id="fb-root"></div>
-    {{ slug }}
     <div class="container_postDetail">
-      <ImageSlider :post="payload" :fetchingPost="fetchingPost" />
-      <PostDetail :post="payload" :fetchingPost="fetchingPost" />
+      <ImageSlider :post="post" :fetchingPost="fetchingPost" />
+      <PostDetail :post="post" :fetchingPost="fetchingPost" />
     </div>
-    <!-- <div class="container_recommendations">
+    <div class="container_recommendations">
       <Recommendation :post="post" />
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
+const DEFAULT_SHARE_THUMBNAIL =
+  "https://images.unsplash.com/photo-1608977005169-5a540d8b2458?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
+
 export default {
-  async asyncData({ params, error, payload }) {
+  async asyncData({ params, error, $axios, $payloadURL, route, ...rest }) {
+    if (process.static && process.client && $payloadURL)
+      return await $axios.$get($payloadURL(route));
+
+    // if (payload) return { post: payload };
+    // console.log("******");
+    // console.log(rest);
+    // console.log(params);
+    // console.log(params.slug);
+    // console.log(payload);
     const slug = params.slug; // When calling /abc the slug will be "abc"
     // if (payload) {
     //   return { post: payload, slug };
@@ -28,21 +39,21 @@ export default {
   },
   data: function () {
     return {
-      fetchingPost: false,
       post: null,
+      id: null,
+      fetchingPost: false,
     };
   },
-  created() {
-    if (this.slug && !this.post) {
-      this.fetchPost();
-    }
+  created() {},
+  mounted() {
+    console.log(this.$route.query.id);
+    // this.fetchPost(this.$route.query.id);
   },
-  mounted() {},
   methods: {
-    async fetchPost() {
+    async fetchPost(id) {
       try {
         this.fetchingPost = true;
-        let res = await this.$axios.get(`/api/post/${this.slug}`);
+        let res = await this.$axios.get(`/api/post/${id}`);
         this.post = res.data;
       } catch (error) {
         console.log(error);
@@ -52,43 +63,22 @@ export default {
     },
     head() {
       return {
-        // title: get(this.post, "content", "page title"),
-        // script: [
-        //   {
-        //     hid: "facebook",
-        //     src:
-        //       "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v9.0&appId=1177682459073267&autoLogAppEvents=1",
-        //     defer: true,
-        //     async: true,
-        //     nonce: "36uC68Zf",
-        //   },
-        // ],
-        // meta: [
-        //   { charset: "utf-8" },
-        //   { name: "viewport", content: "width=device-width, initial-scale=1" },
-        //   {
-        //     hid: "description",
-        //     name: "description",
-        //     content: get(this.post, "content", "page content"),
-        //   },
-        //   {
-        //     hid: "url",
-        //     property: "url",
-        //     content:
-        //       "https://upbeat-panini-d9f351.netlify.app/?id=5fcdc7cc652113083a8e54da",
-        //   },
-        //   {
-        //     hid: "image",
-        //     name: "image",
-        //     content: "https://unsplash.com/photos/RaRARO4gQcU",
-        //   },
-        // ],
-        title: "list page",
+        title: get(this.post, "content", "page title"),
+        script: [
+          {
+            hid: "facebook",
+            src:
+              "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v9.0&appId=1177682459073267&autoLogAppEvents=1",
+            defer: true,
+            async: true,
+            nonce: "36uC68Zf",
+          },
+        ],
         meta: [
           {
-            hid: "og-title",
-            property: "og:title",
-            content: "yeyeyeyeyeyeyeye",
+            hid: "description",
+            name: "description",
+            content: get(this.post, "content", "page content"),
           },
         ],
       };
@@ -96,10 +86,10 @@ export default {
   },
   async fetch() {
     // Called also on query changes
-    this.fetchPost();
+    this.fetchPost(this.$route.query.id);
   },
   watch: {
-    "$route.query": "$fetch",
+    // "$route.query": "$fetch",
   },
 };
 </script>
@@ -110,6 +100,9 @@ export default {
   min-height: 100vh;
   padding-left: 5%;
   padding-right: 5%;
+  &_recommendations {
+    margin-top: 30px;
+  }
 }
 
 .title {
@@ -138,12 +131,6 @@ export default {
   flex-direction: column;
 }
 .container_postDetail {
-  // flex-direction: column;
-  .commentSection {
-    display: none;
-  }
-  .postDetail {
-  }
   @media screen and (min-width: $breakpoint-tablet) {
     flex-direction: row;
   }

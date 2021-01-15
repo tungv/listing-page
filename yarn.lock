@@ -6622,7 +6622,12 @@ nuxt-fontawesome@^0.4.0:
     "@fortawesome/fontawesome-svg-core" "^1.2.12"
     "@fortawesome/vue-fontawesome" "^0.1.4"
 
-nuxt@^2.14.6:
+nuxt-payload-extractor@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/nuxt-payload-extractor/-/nuxt-payload-extractor-1.1.1.tgz#b1002bce7ea5c3514c357ed89fb0d94117fc6e2e"
+  integrity sha512-L4aTM6sqe8qvhWmw8XHWff3HkmPS2TjZ9hQivc7gDn3ceOF5HCVJPDIEippNxzL5nKE3VJa661pz2As/4yUuqw==
+
+nuxt@^2.14.12:
   version "2.14.12"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.14.12.tgz#836096ff62ba72554b73744d94f5547109e563f7"
   integrity sha512-tfGz7s0ahL6mCGzzVEWpHgv+/hekNXgY1fX0SBB0dvJKjVHKAdoMxaoHBYhoCYdNL2GNiNQncHRipxiEtuCtOQ==

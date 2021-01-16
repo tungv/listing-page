@@ -5,28 +5,47 @@ import { DEFAULT_ITEM_PER_PAGE } from './constants';
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
+  // generate: {
+  //   async routes() {
+  //     function postRoutes() {
+  //       return axios
+  //         .post('https://urich-server.herokuapp.com/api/web/post/popular')
+  //         .then((r) => r.data.map((post) => {
+  //           // console.log('console.log(post)')
+  //           // console.log(post)
+  //           return {
+  //             route: `post/${post.id}`,
+  //             payload: 'post'
+  //           }
+  //         }))
+  //     }
+  //     console.log('console.log(postRoutes())')
+  //     console.log(postRoutes())
+  //     const response = await axios
+  //       .all([postRoutes()])
+  //       .then(function (results) {
+  //         const merged = [].concat(...results)
+  //         console.log(merged)
+  //         return merged
+  //       })
+  //     console.log('console.log(response)')
+  //     console.log(response)
+  //     return response
+  //   }
+  // },
   generate: {
+    interval: 500,
     async routes() {
-      function postRoutes() {
-        return axios
-          .post('https://urich-server.herokuapp.com/api/web/post/popular')
-          .then((r) => r.data.map((post) => {
-            console.log('console.log(post)')
-            console.log(post)
-            return {
-              route: `post/${post.id}`,
-              payload: 'post'
-            }
-          }))
-      }
-      const response = await axios
-        .all([postRoutes()])
-        .then(function (results) {
-          const merged = [].concat(...results)
-          return merged
-        })
-      return response
-    }
+      const [posts] = await Promise.all([
+        axios.post('https://urich-server.herokuapp.com/api/web/post/popular')
+      ])
+      return [
+        ...posts.data.map(post => ({
+          route: `post/${post.id}`,
+          payload: post,
+        })),
+      ]
+    },
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
